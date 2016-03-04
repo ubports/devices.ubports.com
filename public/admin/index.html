@@ -1,0 +1,80 @@
+<!DOCTYPE html(lang='en')>
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <title>UBports devices admin</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
+  <!-- Bootstrap Core CSS-->
+  <link href="/css/bootstrap.css" rel="stylesheet"/>
+  <link href="/css/style.css" rel="stylesheet"/>
+  <link href="/css/ubuntu.css" rel="stylesheet"/>
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file://-->
+  <!--if lt IE 9
+  script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+  script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+  -->
+  <body ng-app="ubDevices">
+    <nav role="navigation" data-role="header" class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <div data-role="actions" class="visible-xs visible-sm">
+            <button type="button" ng-click="opened = !opened" class="fa fa-bars"></button>
+            <div data-role="actions-overflow-list" ng-class="{opened: opened}">
+              <ul>
+                <li><a ng-click="opened = false" href="https://devices.ubports.com">Devices</a></li>
+                <li><a ng-click="opened = false" href="https://forums.ubports.com">Forums</a></li>
+                <li><a ng-click="opened = false" href="https://wiki.ubports.com">Wiki</a></li>
+                <li><a ng-click="opened = false" href="/get-involved">Get Involved</a></li>
+                <li><a ng-click="opened = false" href="/developers">Developers</a></li>
+              </ul>
+            </div>
+          </div><a href="/apps" ng-if="$state.current.name == 'app'" class="navbar-brand ng-cloak">
+            <div data-role="back-btn"></div>UBports</a><a href="https://ubports.com" ng-if="$state.current.name != 'app'" class="navbar-brand">
+            <div data-role="back-btn" ng-if="$state.current.name != 'main'"></div>UBports</a>
+        </div>
+        <div class="navbar-collapse navbar-right hidden-xs hidden-sm">
+          <ul class="nav navbar-nav">
+            <li><a href="https://devices.ubports.com">Devices</a></li>
+            <li><a href="https://forums.ubports.com">Forums</a></li>
+            <li><a href="https://wiki.ubports.com">Wiki</a></li>
+            <li><a href="/get-involved">Get Involved</a></li>
+            <li><a href="/developers">Developers</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div data-role="content" class="container">
+      <h1>Device admin</h1>
+      <div ng-if="auth" ng-view></div>
+      <div ng-if="!auth">
+        <div ng-if="forbidden">
+          <center>
+            <h1>Access denied (non admin)</h1>
+          </center>
+        </div>
+        <div ng-if="!forbidden">
+
+          <form action="/auth/ubuntu" method="POST">
+            <center>
+              <button class="btn btn-lg">Login</button>
+            </center>
+          </form>
+        </div>
+      </div>
+      <br/>
+      <center>
+        <p>Cannot find your device? send an email to me@mariogrip.com with your device.</p>
+        <p><a href="https://www.digitalocean.com/?refcode=afe991ab278c"><img src="https://www.digitalocean.com/assets/images/logos-badges/png/DO_Proudly_Hosted_Badge_Grey-1652c782.png" width="150" height="40"/></a></p>
+        <p>This site is maintained by<a href="/developers">The UBports Developers</a> and is not an any way endorsed by or affiliated with<a href="http://ubuntu.com/"> Ubuntu</a> or<a href="http://www.canonical.com/"> Canonical</a>.<a href="http://ubuntu.com/"> Ubuntu</a> and<a href="http://www.canonical.com/"> Canonical</a> are registered trademarks of<a href="http://www.canonical.com/"> Canonical Ltd.</a></p>
+      </center>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-route.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.2.0/lodash.min.js"></script>
+    <script src="/js/admin.js"></script>
+  </body>
+</head>

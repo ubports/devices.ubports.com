@@ -1,0 +1,23 @@
+body { 
+  background: -webkit-linear-gradient(#ECE9E6 10%, #acacac 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(#ECE9E6 10%, #acacac 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(#ECE9E6 10%, #acacac 90%); /* IE10 */
+  background:      -o-linear-gradient(#ECE9E6 10%, #acacac 90%); /* Opera 11.10+ */
+  background:         linear-gradient(#ECE9E6 10%, #acacac 90%); /* W3C */
+        
+}
+
+.container, 
+.main-fluid {
+    background: #fff;
+}
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

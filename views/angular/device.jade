@@ -1,0 +1,119 @@
+div.page-header
+    h1(ng-if="found && !loading") \#{{device.pri}} {{name}} ({{device.device}})
+    h1(ng-if="loading || !found") {{name}}
+div.row(ng-if="found && !loading")
+    div.col-md-8
+        h3 Status
+        hr
+        div.row.bs-wizard(style="border-bottom:0;")
+            div.col-xs-3.bs-wizard-step(class="{{getStatus(1)}}")
+                div.text-center.bs.wizard-stepnum Vote
+                div.progress
+                    div.progress-bar
+                a.bs-wizard-dot
+                div.bs-wizard-info.text-center There is no debug device bought yet. Development cannot be done without a debug device.
+            div.col-xs-3.bs-wizard-step(class="{{getStatus(2)}}")
+                div.text-center.bs.wizard-stepnum Waiting
+                div.progress
+                    div.progress-bar
+                a.bs-wizard-dot
+                div.bs-wizard-info.text-center The device is bought and is currently waiting for shipping or waiting for a available developer.
+            div.col-xs-3.bs-wizard-step(class="{{getStatus(3)}}")
+                div.text-center.bs.wizard-stepnum Development
+                div.progress
+                    div.progress-bar
+                a.bs-wizard-dot
+                div.bs-wizard-info.text-center The device is currently under development.
+            div.col-xs-3.bs-wizard-step(class="{{getStatus(4)}}")
+                div.text-center.bs.wizard-stepnum Release
+                div.progress
+                    div.progress-bar
+                a.bs-wizard-dot
+                div.bs-wizard-info.text-center The device is a port with all the important parts working, such as wifi, call, sms, data, camera, OTA, and sound.
+        h3 Donations
+        hr
+        h4 Received: {{device.donates | currency}} (not realtime)
+        div(style="margin: 0px;" ng-if="device.status === 1")
+            h4 Goal:
+            p Donation to debug device: (note, this is not realtime)
+                div.progress(style="margin: 0px;")
+                    div.progress-bar(role="progressbar" aria-valuenow="{{device.donates}}" aria-valuemin="0" aria-valuemax="{{device.price}}" style="width: {{device.donates/device.price*100}}%; color: black; margin: 0px;") {{device.donates/device.price*100}}%
+            p.pull-right {{device.donates/device.price*100}}%  towards the goal of ${{device.price}}
+            br
+        br
+        div(style="display: inline;")
+            div.pull-right.btn-group
+                button.btn(type="button" ng-click="setPaymethod('paypal');" class="{{paymethod('paypal', 'btn')}}")
+                    span.fa.fa-paypal
+                button.btn(type="button" ng-click="setPaymethod('bitcoin');" class="{{paymethod('bitcoin', 'btn')}}")
+                    span.fa.fa-bitcoin
+                button.btn(type="button" ng-click="setPaymethod('mobile');" class="{{paymethod('mobile', 'btn')}}" ng-if="device.status === 1")
+                    span.fa.fa-mobile
+        h4 Select an Amount
+        hr
+        p
+        div(ng-if="paymethod('paypal', 'bool')")
+            button.btn.btn-primary.btn-pay(ng-click="$parent.payAmout = 5") {{5 | currency}}
+            button.btn.btn-primary.btn-pay(ng-click="$parent.payAmout = 10") {{10 | currency}}
+            button.btn.btn-primary.btn-pay(ng-click="$parent.payAmout = 20") {{20 | currency}}
+            button.btn.btn-primary.btn-pay(ng-click="$parent.payAmout = 50") {{50 | currency}}
+            button.btn.btn-primary.btn-pay(ng-click="$parent.payAmout = 0") Other
+        div(ng-if="paymethod('bitcoins', 'bool')")
+            button.btn.btn-primary.btn-pay(ng-click="$parent.payAmout = 0.1") 0.1 BTC
+            button.btn.btn-primary.btn-pay(ng-click="$parent.payAmout = 0.5") 0.5 BTC
+            button.btn.btn-primary.btn-pay(ng-click="$parent.payAmout = 1") 1 BTC
+            button.btn.btn-primary.btn-pay(ng-click="$parent.payAmout = 2") 2 BTC
+            button.btn.btn-primary.btn-pay(ng-click="$parent.payAmout = 0") Other
+            
+        form.form-inline(ng-if="paymethod('paypal', 'bool')" action='https://www.paypal.com/cgi-bin/webscr', method='post', target='_top')
+            br
+            div.form-group
+                label(style="margin-right: 5px;") Your Donation: 
+            div.input-group(style="margin-right: 5px;")
+                div.input-group-addon
+                    span.fa(class="{{paymethod('', 'fa')}}")
+                input.form-control(type="number" placeholder="Amount" ng-model="payAmout")
+            input(type='hidden', name='cmd', value='_donations')
+            input(type='hidden', name='business', value='me@mariogrip.com')
+            input(type='hidden', name='lc', value='BT')
+            input(type='hidden', name='item_name', value='UBports | {{device.device}}')
+            input(type='hidden', name='amount', value='{{payAmout | number}}')
+            input(type='hidden', name='currency_code', value='USD')
+            input(type='hidden', name='no_note', value='0')
+            input(type='hidden', name='bn', value='PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest')
+            button.btn.btn-primary(border='0', name='submit', alt='PayPal - The safer, easier way to pay online!') Donate
+        div(style="text-align: center;" ng-if="paymethod('bitcoin', 'bool')")
+            p Bitcoin Address: 
+            pre {{device.bitcoin}}
+        div(style="text-align: left;" ng-if="paymethod('mobile', 'bool')")
+            p If you want to donate an device, please send an email to me@mariogrip.com with the subject "Donate device {{device.name}}" and a general description of the condition of the device.
+        br
+    div.col-md-4
+        div.panel.panel-default
+            div.panel-heading What's working
+            ul.list-group
+                div(ng-repeat='(key, value) in toObj(device.whatIsWorking);')
+                    li.list-group-item.list-group-item-success(ng-if="value") {{key}}
+                    li.list-group-item.list-group-item-danger(ng-if="!value") {{key}}
+                
+        
+div.row(ng-if="found && !loading")
+    div.col-md-8
+        div(ng-if="device.status !== 1")
+            h2 How to install
+            hr
+            a(href="{{device.wiki}}") Wiki
+        
+    div.col-md-4
+        div.panel.panel-default
+            div.panel-heading About Device
+            table.table
+                tr(ng-repeat="(key, value) in toObj(device.about)")
+                    td {{key}}
+                    td {{value}}
+        
+div.row(ng-if="!found && !loading")
+    h2 Device {{name}} not found!
+    
+div.row(ng-if="loading" align="center" style="text-align: center;")
+    span.fa.fa-refresh.fa-spin.fa-4x

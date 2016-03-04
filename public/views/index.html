@@ -1,0 +1,82 @@
+<div class="page-header">
+  <h1></h1>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">Active Devices</div>
+  <div class="panel-body">
+    <p>Active devices are devices that are fully working as daily drivers, it requires to have wifi, call, sms, data, camera, OTA, and sound to be working to be an "Active device".</p>
+  </div>
+  <table class="table">
+    <tr>
+      <th>Priority</th>
+      <th>Name</th>
+      <th>Device</th>
+      <th>Donations</th>
+      <th style="width: 3%;"></th>
+    </tr>
+    <tr ng-if="loading" align="center">
+      <th colspan="5" style="text-align: center;"><span class="fa fa-refresh fa-spin fa-3x"></span></th>
+    </tr>
+    <tr ng-if="true &amp;&amp; !loading" align="center">
+      <th colspan="5" style="text-align: center;">Sorry, there is no "Active" devices yet!</th>
+    </tr>
+  </table>
+</div><br/>
+<div class="panel panel-default">
+  <div class="panel-heading">Inprogress Devices</div>
+  <div class="panel-body">Inprogress devices are devices that are not yet ready to use daily, due to missing important functions. These devices are under heavy development.</div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Priority</th>
+        <th>Name</th>
+        <th>Device</th>
+        <th>Devopment done</th>
+        <th style="width: 3%;"></th>
+      </tr>
+    </thead>
+    <tr ng-if="loading" align="center">
+      <th colspan="5" style="text-align: center;"><span class="fa fa-refresh fa-spin fa-3x"></span></th>
+    </tr>
+    <tr ng-repeat="item in activeDevices" ng-click="go(item.device)">
+      <td>{{item.pri}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.device}}</td>
+      <td style="width: 45%">
+        <div class="progress">
+          <div role="progressbar" aria-valuenow="{{item.done}}" aria-valuemin="0" aria-valuemax="100" style="width: {{item.done}}%; color: black;" class="progress-bar">{{item.done}}%</div>
+        </div>
+      </td>
+      <td><span class="fa fa-chevron-right pull-right"></span></td>
+    </tr>
+  </table>
+</div><br/>
+<div class="panel panel-default">
+  <div class="panel-heading">Voting Devices</div>
+  <div class="panel-body">Voting device are devices that haven't started development, users can vote (donate) for devices they want to get ported. A device will need to be bought so we can develop on it. Priority will be ranked after donate to debug device percentage.</div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Priority</th>
+        <th>Name</th>
+        <th>Device</th>
+        <th>Donations to Debug device</th>
+        <th style="width: 3%;"></th>
+      </tr>
+    </thead>
+    <tr ng-if="loading" align="center">
+      <th colspan="5" style="text-align: center;"><span class="fa fa-refresh fa-spin fa-3x"></span></th>
+    </tr>
+    <tr ng-repeat="item in voteDevices" ng-click="go(item.device)">
+      <td>{{item.pri}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.device}}</td>
+      <td style="width: 45%">
+        <div class="progress">
+          <div role="progressbar" aria-valuenow="{{item.donates}}" aria-valuemin="0" aria-valuemax="{{item.price}}" style="width: {{item.donates/item.price*100}}%; color: black;" class="progress-bar">{{item.donates/item.price*100}}%</div>
+        </div>
+      </td>
+      <td><span class="fa fa-chevron-right pull-right"></span></td>
+    </tr>
+  </table>
+</div>

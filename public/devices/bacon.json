@@ -1,0 +1,39 @@
+{
+  "device": {
+      "name": "OnePlus One",
+      "device": "bacon",
+      "pri": 1,
+      "donates": 500,
+      "price": 500,
+      "install": "https://wiki.ubports.com",
+      "system-server": {
+            "extraCmd": "",
+            "channels": [
+              "stable",
+              "rc",
+              "devel"
+            ]
+        },
+      "status": 3,
+      "whatIsWorking": {
+            "Wifi": true,
+            "Graphics": true,
+            "Boot": true,
+            "Rotation": true,
+            "Cellular Radio": false,
+            "BT": false,
+            "Sound": true,
+            "Touch": true,
+            "Camera": false,
+            "Video Decode": false,
+            "Suspend/Resume": true
+      },
+      "about":{
+        "CPU": "2.5 GHz (2457 MHz) quad-core Krait 400",
+        "GPU": "Adreno 330",
+        "Memory": "3 GB LPDDR3 RAM",
+        "Storage": "16 GB (Silk White), 64 GB (Sandstone Black)"
+      }
+        
+  }
+}

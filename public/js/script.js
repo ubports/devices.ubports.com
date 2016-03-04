@@ -1,0 +1,136 @@
+var app = angular.module("ubDevices", ['ngRoute']);
+
+app.controller('appCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){
+    $scope.loading = true;
+    $http.get("/api/devices").then(function(data){
+        var devices = data.data.devices;
+
+        $scope.activeDevices = devices.progress;
+        $scope.voteDevices = devices.vote;
+        $scope.loading = false;
+    });
+    $scope.go = function(goto){
+        console.log(goto);
+        $location.url("/"+goto);
+    }
+}]);
+
+app.controller('newCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){
+           $scope.new = function(i){
+        $http.post("api/device/request", i).then(function() {
+
+        });
+           };
+}]);
+
+
+app.controller('deviceCtrl', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+    $scope.name = $routeParams.device;
+    $scope.loading = true;
+    $http.get("api/device/"+ $routeParams.device).then(function(data){
+        if (data.status === 200){
+            if (data.data.redirect){
+
+                console.log(data.data.redirect);
+                $http.get("/devices/" + data.data.redirect + ".json").then(function(data){
+                    if (data.status === 200){
+                        var device = data.data.device;
+                        $scope.device = device;
+
+                        ["stable","rc-proposed","devel-proposed"].forEach(function (channel) {
+                          $http.get("http://system-image.ubports.com/ubuntu-touch/"+channel+"/"+$routeParams.device+"/index.json").then(function (data) {
+                            var version = 0;
+                            data.data.images.forEach(function (image) {
+                              if (image.type === "full"){
+                                version = image.version > version ? image.version : version;
+                              }
+                            });
+                            $scope.systemImage[channel.replace("-proposed", "")] = version;
+                          });
+                        })
+
+
+                        $scope.name = device.name;
+                        $scope.found = true;
+                        $scope.loading = false;
+                    }else{
+                        $scope.found = false;
+                        $scope.loading = false;
+                    }
+                });
+            }else{
+                var device = data.data.device;
+                $scope.device = device;
+                $scope.name = device.name;
+                $scope.found = true;
+                $scope.loading = false;
+            }
+        }else{
+            $scope.found = false;
+            $scope.loading = false;
+        }
+    }).catch(function(dara){
+            $scope.found = false;
+            $scope.loading = false;
+    });
+    $scope.toObj = function(r) {
+        return JSON.parse(r.replace('\"', '"'));
+    };
+    $scope.pay = "paypal";
+    var pay = "paypal";
+    $scope.payAmout = 5;
+    $scope.setPaymethod = function(i){
+        pay = i;
+    };
+    $scope.paymethod = function(i, r){
+        if(r === "btn"){
+            if (pay === i){
+                return "btn-primary";
+            }else{
+                return "btn-default";
+            }
+        }
+        if(r === "fa"){
+            if (pay === "bitcoin"){
+                return "fa-btc";
+            }
+            if (pay === "paypal"){
+                return "fa-usd";
+            }
+        }
+        if(r === "bool"){
+            if (pay === i){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+    }
+    $scope.getStatus = function(i){
+        if ($scope.device.status === i){
+            return "active";
+        }
+        if ($scope.device.status > i){
+            return "complete";
+        }
+        if ($scope.device.status < i){
+            return "disabled"
+        }
+    };
+}]);
+
+app.config(["$routeProvider", function($routeProvider){
+    $routeProvider.when('/new', {
+        templateUrl: 'views/new',
+        controller: 'newCtrl'
+    }).when('/:device', {
+        templateUrl: 'views/device.html',
+        controller: 'deviceCtrl'
+    }).when('/', {
+        templateUrl: 'views/index.html',
+        controller: 'appCtrl'
+    }).otherwise({
+        rediectTo: '/'
+    });
+}]);

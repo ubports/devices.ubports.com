@@ -1,0 +1,198 @@
+<div class="panel panel-default" ng-if="deviceExist">
+  <div class="panel-heading">System Image</div>
+  <div class="panel-body">
+    <table class="table table-borderless">
+      <tbody>
+        <tr>
+          <td>
+            devel-proposed
+          </td>
+          <td>
+            {{systemImage.devel}}
+          </td>
+          <td style="text-align: right; width: 80%">
+            <button type="button" style="width: 300px;" class="btn btn-xs btn-warning">Promote devel-proposed to rc-proposed</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            rc-proposed
+          </td>
+          <td>
+            {{systemImage.rc}}
+          </td>
+          <td style="text-align: right; width: 80%">
+            <button type="button" style="width: 300px;" class="btn btn-xs btn-warning">Promote rc-proposed to stable</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            stable
+          </td>
+          <td>
+            {{systemImage.stable}}
+          </td>
+          <td>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Device Settings</div>
+  <div class="panel-body">
+    <form>
+      <table class="table table-borderless">
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <th>
+              <input ng-model="item.name" class="form-control">
+            </th>
+          </tr>
+          <tr>
+            <th>Device</th>
+            <th>
+              <input ng-model="item.device" class="form-control">
+            </th>
+          </tr>
+          <tr>
+            <th>Priority</th>
+            <th>
+              <input ng-model="item.pri" type="number" class="form-control">
+            </th>
+          </tr>
+          <tr>
+            <th>Donations</th>
+            <th>
+              <input ng-model="item.donates" type="number" class="form-control">
+            </th>
+          </tr>
+          <tr>
+            <th>Device Price</th>
+            <th>
+              <input ng-model="item.price" type="number" class="form-control">
+            </th>
+          </tr>
+          <tr>
+            <th>Maintainer</th>
+            <th>
+              <input ng-model="item.maintainer" class="form-control">
+            </th>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <th>
+              <div class="radio">
+                <label>
+                  <input ng-model="item.status" ng-value="1" type="radio" checked> Vote device
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input ng-model="item.status" ng-value="2" type="radio"> Waiting device
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input ng-model="item.status" ng-value="3" type="radio"> Development device
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input ng-model="item.status" ng-value="4" type="radio"> Release device
+                </label>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th>progress done percentage 0->100</th>
+            <th>
+              <input ng-model="item.type" type="number" class="form-control">
+            </th>
+          </tr>
+          <tr>
+            <th>What is working</th>
+            <th>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="(i, v) in item.whatIsWorking">
+                  <div style="display: flex; justify-content: space-between;">
+                  <div style="width: 30%;">
+                    {{i}}
+                  </div>
+                  <div>
+                    <label class="radio-inline">
+                      <input type="radio" ng-model="item.whatIsWorking[i]" ng-value="0"> Disable
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" ng-model="item.whatIsWorking[i]" ng-value="1"> False
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" ng-model="item.whatIsWorking[i]" ng-value="2"> True
+                    </label>
+                  </div>
+                  <button type="button" ng-click="whatIsWorking.remove(i)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove-sign"></span> Remove</button>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div style="display: flex; justify-content: space-between;">
+                    <input style="width: 30%;" ng-model="newWIW.item" />
+                  <div>
+                    <label class="radio-inline">
+                      <input type="radio" ng-model="newWIW.value" ng-value="0"> Disable
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" ng-model="newWIW.value" ng-value="1"> False
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" ng-model="newWIW.value" ng-value="2"> True
+                    </label>
+                  </div>
+                  <button type="button" ng-click="whatIsWorking.add()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Add</button>
+                  </div>
+                </li>
+              </ul>
+            </th>
+          </tr>
+          <tr>
+            <th>About Device</th>
+            <th>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="(i, v) in item.about">
+                  <div style="display: flex; justify-content: space-between;">
+                    {{i}}
+                  <input ng-model="item.about[i]"/>
+                  <button type="button" ng-click="aboutDevice.remove(i)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove-sign"></span> Remove</button>
+                </div>
+                </li>
+                <li class=list-group-item>
+                  <div style="display: flex; justify-content: space-between;">
+                  <input ng-model="new.item" />
+                  <input ng-model="new.text" />
+                  <button type="button" ng-click="aboutDevice.add()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Add</button>
+                </div>
+                </li>
+              </ul>
+            </th>
+          </tr>
+          <tr>
+            <th>Multirom</th>
+            <th>
+              <div class="checkbox">
+                <label>
+                  <input ng-model="item.multirom" type="checkbox"> Yes
+                </label>
+              </div>
+            </th>
+          </tr>
+        </tbody>
+      </table>
+      <button ng-click="save()" type="button" class="btn">Save</button>
+      <span ng-if="loadingSave" class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+      <span ng-if="saved" style="color: green;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+    </form>
+  </div>
+</div>
