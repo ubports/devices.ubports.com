@@ -33,4 +33,5 @@ config
 # Database
 *.sqlite
 migrations/*
+migrations-done/*
 seeders/*

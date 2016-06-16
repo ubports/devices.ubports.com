@@ -6,19 +6,27 @@
   <div class="panel-body">
     <p>Active devices are devices that are fully working as daily drivers, it requires to have wifi, call, sms, data, camera, OTA, and sound to be working to be an "Active device".</p>
   </div>
-  <table class="table">
-    <tr>
-      <th>Priority</th>
-      <th>Name</th>
-      <th>Device</th>
-      <th>Donations</th>
-      <th style="width: 3%;"></th>
-    </tr>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Priority</th>
+        <th>Name</th>
+        <th>Device</th>
+        <th>Comment</th>
+        <th style="width: 3%;"></th>
+      </tr>
+    </thead>
     <tr ng-if="loading" align="center">
       <th colspan="5" style="text-align: center;"><span class="fa fa-refresh fa-spin fa-3x"></span></th>
     </tr>
-    <tr ng-if="true &amp;&amp; !loading" align="center">
-      <th colspan="5" style="text-align: center;">Sorry, there is no "Active" devices yet!</th>
+    <tr ng-repeat="item in activeDevices" ng-click="go(item.device)">
+      <td>{{item.pri}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.device}}</td>
+      <td style="width: 45%">
+        {{item.comment}}
+      </td>
+      <td><span class="fa fa-chevron-right pull-right"></span></td>
     </tr>
   </table>
 </div><br/>

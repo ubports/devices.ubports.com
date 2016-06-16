@@ -190,6 +190,23 @@ dbCon.db.sync().then(function() {
         });
       });
 
+      router.get('/api/device/:device/build', function(req, res, next) {
+        dbCon.devicesBuild.find({
+          where: {
+            device: req.params.device
+          }
+        }).then(function(r) {
+          if (!r) {
+            res.sendStatus(404)
+          } else {
+            if (!r.hasCi) delete r.ciFails;
+            res.send({
+              device: r
+            });
+          }
+        });
+      });
+
       router.post('/api/device/all/:api', ensureAuthenticated, function(req, res, next) {
         var params = req.body;
         dbCon.devices.create(params).then(function(jane) {

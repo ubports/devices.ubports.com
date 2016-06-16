@@ -31,6 +31,14 @@ var db = function() {
     comfirm: Sequelize.BOOLEAN
   });
 
+  this.devicesBuild = this.db.define('devicesBuild', {
+    device: Sequelize.STRING,
+    manifest: Sequelize.STRING,
+    canBuild: Sequelize.BOOLEAN,
+    hasCi: Sequelize.BOOLEAN,
+    ciFails: Sequelize.BOOLEAN
+  });
+
   this.devices = this.db.define('devices', {
     name: Sequelize.STRING,
     device: Sequelize.STRING,
@@ -48,7 +56,8 @@ var db = function() {
     maintainer: Sequelize.STRING,
     multirom: Sequelize.BOOLEAN,
     done: Sequelize.INTEGER,
-    request: Sequelize.BOOLEAN
+    request: Sequelize.BOOLEAN,
+    comment: Sequelize.STRING
   });
 
 };
