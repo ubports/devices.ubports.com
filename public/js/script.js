@@ -5,7 +5,8 @@ app.controller('appCtrl', ['$scope', '$http', '$location', function($scope, $htt
     $http.get("/api/devices").then(function(data){
         var devices = data.data.devices;
 
-        $scope.activeDevices = devices.progress;
+        $scope.activeDevices = devices.active;
+        $scope.progressDevices = devices.progress;
         $scope.voteDevices = devices.vote;
         $scope.loading = false;
     });
