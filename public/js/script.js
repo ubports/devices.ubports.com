@@ -6,6 +6,7 @@ app.controller('appCtrl', ['$scope', '$http', '$location', function($scope, $htt
         var devices = data.data.devices;
 
         $scope.activeDevices = devices.active;
+        $scope.hasActiveDev = (devices.active.length > 0)
         $scope.progressDevices = devices.progress;
         $scope.voteDevices = devices.vote;
         $scope.loading = false;

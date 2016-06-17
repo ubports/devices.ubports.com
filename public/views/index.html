@@ -19,7 +19,7 @@
     <tr ng-if="loading" align="center">
       <th colspan="5" style="text-align: center;"><span class="fa fa-refresh fa-spin fa-3x"></span></th>
     </tr>
-    <tr ng-repeat="item in activeDevices" ng-click="go(item.device)">
+    <tr ng-if="hasActiveDev" ng-repeat="item in activeDevices" ng-click="go(item.device)">
       <td>{{item.pri}}</td>
       <td>{{item.name}}</td>
       <td>{{item.device}}</td>
@@ -27,6 +27,9 @@
         {{item.comment}}
       </td>
       <td><span class="fa fa-chevron-right pull-right"></span></td>
+    </tr>
+    <tr ng-if="!hasActiveDev && !loading" align="center">
+       <th colspan="5" style="text-align: center;">Sorry, there is no "Active" devices yet!</th>
     </tr>
   </table>
 </div><br/>
