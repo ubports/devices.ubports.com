@@ -143,7 +143,8 @@ dbCon.db.sync().then(function() {
               votes: d.votes,
               donates: d.donates,
               price: d.price,
-              done: d.done
+              done: d.done,
+              comment: d.comment
             };
             if (d.status) {
               if (d.status === 4) {
