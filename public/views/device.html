@@ -114,8 +114,8 @@
       <div class="panel-heading">What's working</div>
       <ul class="list-group">
         <div ng-repeat="(key, value) in toObj(device.whatIsWorking);">
-          <li ng-if="value" class="list-group-item list-group-item-success">{{key}}</li>
-          <li ng-if="!value" class="list-group-item list-group-item-danger">{{key}}</li>
+          <li ng-if="value == 2" class="list-group-item list-group-item-success">{{key}}</li>
+          <li ng-if="value != 2" class="list-group-item list-group-item-danger">{{key}}</li>
         </div>
       </ul>
     </div>
