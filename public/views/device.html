@@ -47,10 +47,10 @@
   <h3 class="panel-title">Donations</h3>
 </div>
       <div class="panel-body">
-    <h4>Donations received: {{device.donates | currency}} (not realtime)</h4>
+    <h4>Donations received: {{device.donates | currency}} (not realtime) (current only paypal)</h4>
     <div style="margin: 0px;" ng-if="device.status === 1">
       <h4>Goal:</h4>
-      <p>Donation to debug device: (note, this is not realtime)
+      <p>Donation to debug device: (note, this is not realtime) (current only paypal)
         <div style="margin: 0px;" class="progress">
           <div role="progressbar" aria-valuenow="{{device.donates}}" aria-valuemin="0" aria-valuemax="{{device.price}}" style="width: {{device.donates/device.price*100}}%; color: black; margin: 0px;" class="progress-bar">{{device.donates/device.price*100}}%</div>
         </div>
@@ -64,7 +64,7 @@
         <button type="button" ng-click="setPaymethod('mobile');" ng-if="device.status === 1" class="btn {{paymethod('mobile', 'btn')}}"><span class="fa fa-mobile"></span></button>
       </div>
     </div>
-    <h4>Donate:</h4>
+    <h4>{{pay}}</h4>
     <hr/>
     <div ng-if="paymethod('paypals', 'bool')">
       <button ng-click="$parent.payAmout = 5" class="btn btn-primary btn-pay">{{5 | currency}}</button>
@@ -100,12 +100,17 @@
     </form>
     <div style="text-align: center;" ng-if="paymethod('bitcoin', 'bool')">
       <p>Bitcoin Address: </p>
-      <pre>{{device.bitcoin}}</pre>
+      <pre>1DpvghKwhrwZyyCyWMQ2tnLaV3yEznFndB</pre>
     </div>
     <div style="text-align: left;" ng-if="paymethod('mobile', 'bool')">
       <p>If you want to donate an device, please send an email to me@mariogrip.com with the subject "Donate device {{device.name}}" and a general description of the condition of the device.</p>
-    </div><br/>
-    <h4>or become a patreon and help found a full time developer: <a href="https://www.patreon.com/ubports">patreon.com/ubports</a></h4>
+    </div><hr/>
+    <div class="jumbotron">
+<h2>Monthly supporter</h2>
+<p>If you enjoyed the ride so far, please consider becomeing a monthly supporter at <a href="http://www.patreon.com/ubports">Patreon</a>
+and help found a full time worker on Ubports which will help Ubports grow and make development much faster!</p>
+<a href="http://www.patreon.com/ubports" class="btn btn-primary btn-lg">Become a Patron</a>
+</div>
   </div>
 </div>
 </div>

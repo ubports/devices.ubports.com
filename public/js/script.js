@@ -118,11 +118,12 @@ app.controller('deviceCtrl', ['$scope', '$http', '$routeParams', '$uibModal', '$
     $scope.toObj = function(r) {
         return JSON.parse(r.replace('\"', '"'));
     };
-    $scope.pay = "paypal";
+    $scope.pay = "Paypal";
     var pay = "paypal";
     $scope.payAmout = 5;
     $scope.setPaymethod = function(i){
         pay = i;
+        $scope.pay = i.capitalizeFirstLetter();
     };
     $scope.paymethod = function(i, r){
         if(r === "btn"){
@@ -176,3 +177,7 @@ app.config(["$routeProvider", function($routeProvider){
         rediectTo: '/'
     });
 }]);
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
