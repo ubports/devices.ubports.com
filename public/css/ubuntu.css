@@ -41,7 +41,6 @@ body {
     display: block;
     width: 20px;
     height: 20px;
-    background: transparent url("/assets/suru/back.svg") no-repeat center center;
     background-size: 100%;
     margin: 0 auto;
 }
@@ -102,7 +101,6 @@ body {
     display: block;
     width: 20px;
     height: 20px;
-    background: transparent url("/assets/suru/contextual-menu.svg") no-repeat center center !important;
     background-size: 100% !important;
     margin: 0 auto;
 }
@@ -276,7 +274,6 @@ html, body, [data-role="mainview"], [data-role="content"] {
 
 [data-role="list"] [data-role="listitem"] > a:after {
     content: "";
-    background: transparent url(/assets/suru/go-next.svg) no-repeat 0.5rem 0.5rem;
     background-size: 40% 75%;
     position: absolute;
     width: 7rem;
