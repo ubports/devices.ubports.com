@@ -1,11 +1,17 @@
 var app = angular.module("ubDevices", ['ngRoute', 'ngAnimate', 'ngCookies', 'ui.bootstrap']);
 
 app.controller('modalCtrl', ['$scope', '$uibModalInstance', '$cookies', function ($scope, $uibModalInstance, $cookies) {
-  $scope.cancel = () => {
+  var cookieLong = () => {
     $cookies.remove(patreonCookie);
     var d = new Date();
     d.setTime(d.getTime() + (30*24*60*60*1000));
     $cookies.putObject(patreonCookie, true, {expires:d});
+  }
+  $scope.become = () => {
+    cookieLong()
+  }
+  $scope.cancel = () => {
+    cookieLong()
     $uibModalInstance.dismiss('cancel');
   };
   $scope.later = () => {
