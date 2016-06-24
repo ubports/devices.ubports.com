@@ -1,6 +1,39 @@
-var app = angular.module("ubDevices", ['ngRoute']);
+var app = angular.module("ubDevices", ['ngRoute', 'ngAnimate', 'ngCookies', 'ui.bootstrap']);
 
-app.controller('appCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){
+app.controller('modalCtrl', ['$scope', '$uibModalInstance', '$cookies', function ($scope, $uibModalInstance, $cookies) {
+  $scope.cancel = () => {
+    $cookies.remove(patreonCookie);
+    var d = new Date();
+    d.setTime(d.getTime() + (30*24*60*60*1000));
+    $cookies.putObject(patreonCookie, true, {expires:d});
+    $uibModalInstance.dismiss('cancel');
+  };
+  $scope.later = () => {
+    $uibModalInstance.dismiss('later');
+  }
+}]);
+
+var patreonCookie = "patreon";
+var patreon = ($uibModal, $cookies) => {
+  if (!$cookies.getObject(patreonCookie)){
+  setTimeout(() => {
+    var d = new Date();
+    d.setTime(d.getTime() + (1*24*60*60*1000));
+    $cookies.putObject(patreonCookie, true, {expires:d});
+    $uibModal.open({
+      animation: true,
+      size: "lg",
+      templateUrl: '/modals/patreon.html',
+      controller: 'modalCtrl'
+    })
+  }, 3000);
+}
+}
+
+app.controller('appCtrl', ['$scope', '$http', '$location', '$uibModal', '$cookies', function($scope, $http, $location, $uibModal, $cookies){
+
+    patreon($uibModal, $cookies);
+
     $scope.loading = true;
     $http.get("/api/devices").then(function(data){
         var devices = data.data.devices;
@@ -26,7 +59,8 @@ app.controller('newCtrl', ['$scope', '$http', '$location', function($scope, $htt
 }]);
 
 
-app.controller('deviceCtrl', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+app.controller('deviceCtrl', ['$scope', '$http', '$routeParams', '$uibModal', '$cookies', function($scope, $http, $routeParams, $uibModal, $cookies) {
+    patreon($uibModal, $cookies);
     $scope.name = $routeParams.device;
     $scope.loading = true;
     $http.get("api/device/"+ $routeParams.device).then(function(data){
