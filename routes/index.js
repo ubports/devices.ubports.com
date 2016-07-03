@@ -91,7 +91,7 @@ dbCon.db.sync().then(function() {
           stateless: true,
         },
         function(identifier, profile, done) {
-          request.get("http://api.staging.launchpad.net/1.0/~ubports-developers/members", function(err, head, response) {
+          request.get("http://api.launchpad.net/1.0/~ubports-developers/members", function(err, head, response) {
             var userFound = false;;
             response = JSON.parse(response);
             response.entries.forEach(function(i) {
