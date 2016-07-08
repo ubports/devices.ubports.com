@@ -31,9 +31,11 @@ head
                 li
                   a(ng-click='opened = false', href='https://wiki.ubports.com') Wiki
                 li
-                  a(ng-click='opened = false', href='/get-involved') Get Involved
+                  a(ng-click='opened = false', href='https://ubports.com/get-involved') Get Involved
                 li
-                  a(ng-click='opened = false', href='/developers') Developers
+                  a(ng-click='opened = false', href='https://ubports.com/sponsors') Sponsors
+                li
+                  a(ng-click='opened = false', href='https://ubports.com/developers') Developers
           a.navbar-brand.ng-cloak(href='/apps', ng-if="$state.current.name == 'app'")
             div(data-role='back-btn')
             | UBports
@@ -49,9 +51,11 @@ head
             li
               a(href='https://wiki.ubports.com') Wiki
             li
-              a(href='/get-involved') Get Involved
+              a(href='https://ubports.com/get-involved') Get Involved
             li
-              a(href='/developers') Developers
+              a(href='https://ubports.com/sponsors') Sponsors
+            li
+              a(href='https://ubports.com/developers') Developers
 
     .container(data-role='content')
       block content
