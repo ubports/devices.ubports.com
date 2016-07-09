@@ -29,13 +29,13 @@ div.row(ng-if="found && !loading")
                 div.progress
                     div.progress-bar
                 a.bs-wizard-dot
-                div.bs-wizard-info.text-center The device is a port with all the important parts working, such as wifi, call, sms, data, camera, OTA, and sound.
+                div.bs-wizard-info.text-center The device is a port with all the important parts working, such as wifi, call, sms, data, camera, sound, OTA, and AppArmor.
         h3 Donations
         hr
-        h4 Received: {{device.donates | currency}} (not realtime)
+        h4 Received: {{device.donates | currency}} (not in realtime)
         div(style="margin: 0px;" ng-if="device.status === 1")
             h4 Goal:
-            p Donation to debug device: (note, this is not realtime)
+            p Donation to debug device: (note, this is not in realtime)
                 div.progress(style="margin: 0px;")
                     div.progress-bar(role="progressbar" aria-valuenow="{{device.donates}}" aria-valuemin="0" aria-valuemax="{{device.price}}" style="width: {{device.donates/device.price*100}}%; color: black; margin: 0px;") {{device.donates/device.price*100}}%
             p.pull-right {{device.donates/device.price*100}}%  towards the goal of ${{device.price}}
