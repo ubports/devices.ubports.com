@@ -118,7 +118,7 @@ and help found a full time worker on Ubports which will help Ubports grow and ma
     <div class="panel panel-default" ng-if="device.whatIsWorking != '{}'">
       <div class="panel-heading">What's working</div>
       <ul class="list-group">
-        <div ng-repeat="(key, value) in toObj(device.whatIsWorking) | orderBy:key">
+        <div ng-repeat="(key, value) in toObj(device.whatIsWorking)">
           <li ng-if="value == 2" class="list-group-item list-group-item-success">{{key}}</li>
           <li ng-if="value != 2" class="list-group-item list-group-item-danger">{{key}}</li>
         </div>
