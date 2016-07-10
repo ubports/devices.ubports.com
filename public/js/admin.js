@@ -25,7 +25,7 @@ app.controller('deviceCtrl', ['$scope', '$http', '$location', '$routeParams', fu
       if (!$scope.item.status) $scope.item.status = 0;
       jsonifyObj();
       ["stable","rc-proposed","devel-proposed"].forEach(function (channel) {
-        $http.get("http://system-image.ubports.com/ubuntu-touch/"+channel+"/"+$routeParams.device+"/index.json").then(function (data) {
+        $http.get("https://system-image.ubports.com/ubuntu-touch/"+channel+"/"+$routeParams.device+"/index.json").then(function (data) {
           var version = 0;
           data.data.images.forEach(function (image) {
             if (image.type === "full"){
