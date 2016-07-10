@@ -116,8 +116,22 @@ app.controller('deviceCtrl', ['$scope', '$http', '$routeParams', '$uibModal', '$
             $scope.loading = false;
     });
     $scope.toObj = function(r) {
-        return JSON.parse(r.replace('\"', '"'));
+        var obj = JSON.parse(r.replace('\"', '"'));
+        var arr = [];
+        var newObj;
+        for (var key in obj){
+          arr.push(key+"¤"+obj[key])
+        }
+        return arr;
     };
+    $scope.getKey = function(r) {
+      return r.split("¤")[0]
+    }
+
+    $scope.getValue = function(r) {
+      return r.split("¤")[1]
+    }
+
     $scope.pay = "Paypal";
     var pay = "paypal";
     $scope.payAmout = 5;
@@ -162,6 +176,13 @@ app.controller('deviceCtrl', ['$scope', '$http', '$routeParams', '$uibModal', '$
         }
     };
 }]);
+
+app.filter('toArray', function() { return function(obj) {
+    if (!(obj instanceof Object)) return obj;
+    return _.map(obj, function(val, key) {
+        return Object.defineProperty(val, '$key', {__proto__: null, value: key});
+    });
+}});
 
 app.config(["$routeProvider", function($routeProvider){
     $routeProvider.when('/new', {
