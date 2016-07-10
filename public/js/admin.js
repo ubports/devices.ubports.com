@@ -24,7 +24,6 @@ app.controller('deviceCtrl', ['$scope', '$http', '$location', '$routeParams', fu
       $scope.systemImage = {};
       if (!$scope.item.status) $scope.item.status = 0;
       jsonifyObj();
-      _.defaults($scope.item.whatIsWorking, defaultWhatIsWorking);
       ["stable","rc-proposed","devel-proposed"].forEach(function (channel) {
         $http.get("http://system-image.ubports.com/ubuntu-touch/"+channel+"/"+$routeParams.device+"/index.json").then(function (data) {
           var version = 0;
@@ -108,7 +107,7 @@ $scope.whatIsWorking = {
     if (typeof $scope.item.whatIsWorking !== "object") $scope.item.whatIsWorking = JSON.parse($scope.item.whatIsWorking);
   }catch(e){}
     if (typeof $scope.item.about !== "object") $scope.item.about = {};
-    if (typeof $scope.item.whatIsWorking !== "object") $scope.item.whatIsWorking = {};
+    if (typeof $scope.item.whatIsWorking !== "object") $scope.item.whatIsWorking = defaultWhatIsWorking;
   }
 
   var httpPut = function() {
