@@ -16,7 +16,7 @@ app.controller('deviceCtrl', ['$scope', '$http', '$location', '$routeParams', fu
   $scope.item = {};
   $scope.new = {};
   $scope.newWIW = {};
-  var defaultWhatIsWorking = {"Wifi": 0, "Graphics": 0, "Boot": 0, "Rotation": 0, "Celluar Radio": 0, "Bluetooth": 0, "GPS": 0 , "Sound": 0, "Touch": 0, "Camera": 0, "Resume": 0};
+  var defaultWhatIsWorking = {"Wifi": 0, "Graphics": 0, "Boot": 0, "Rotation": 0, "Cellular Radio": 0, "Bluetooth": 0, "GPS": 0 , "Sound": 0, "Touch": 0, "Camera": 0, "Resume": 0};
   $http.get("/api/device/" + $routeParams.device).then(function(data) {
     if (data.status === 200) {
       $scope.item = data.data.device;
