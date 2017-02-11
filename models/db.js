@@ -42,10 +42,10 @@ var db = function() {
   this.installer = this.db.define('installer', {
     device: Sequelize.STRING,
     name: Sequelize.STRING,
-    install_settings: Sequelize.STRING,
-    images: Sequelize.STRING,
-    buttons: Sequelize.STRING,
-    system_server: Sequelize.STRING
+    install_settings: Sequelize.TEXT,
+    images: Sequelize.TEXT,
+    buttons: Sequelize.TEXT,
+    system_server: Sequelize.TEXT
   })
 
   this.devices = this.db.define('devices', {
