@@ -38,7 +38,7 @@ head
                 li
                   a(ng-click='opened = false', href='https://ubports.com/sponsors') Sponsors
                 li
-                  a(ng-click='opened = false', href='https://ubports.com/developers') Developers
+                  a(ng-click='opened = false', href='https://ubports.com/team') Team
           a.navbar-brand.ng-cloak(href='/apps', ng-if="$state.current.name == 'app'")
             div(data-role='back-btn')
             | UBports
@@ -60,7 +60,7 @@ head
             li
               a(href='https://ubports.com/sponsors') Sponsors
             li
-              a(href='https://ubports.com/developers') Developers
+              a(href='https://ubports.com/team') Team
 
     .container(data-role='content')
       block content
@@ -72,7 +72,7 @@ head
             img(src='/img/DigitalOcean.png', width='200', height='43')
         p
           | This site is maintained by
-          a(href='/developers')  The UBports Developers
+          a(href='/team')  The UBports Team
           |  and is not an any way endorsed by or affiliated with
           a(href='http://ubuntu.com/')  Ubuntu
           |  or
@@ -90,5 +90,3 @@ head
     script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-cookies.min.js")
     script(src="/js/angular-ui.js")
     script(src="/js/script.js")
-    
-    

@@ -39,6 +39,15 @@ var db = function() {
     ciFails: Sequelize.BOOLEAN
   });
 
+  this.installer = this.db.define('installer', {
+    device: Sequelize.STRING,
+    name: Sequelize.STRING,
+    install_settings: Sequelize.STRING,
+    images: Sequelize.STRING,
+    buttons: Sequelize.STRING,
+    system_server: Sequelize.STRING
+  })
+
   this.devices = this.db.define('devices', {
     name: Sequelize.STRING,
     device: Sequelize.STRING,

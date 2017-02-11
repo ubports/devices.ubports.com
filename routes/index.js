@@ -38,14 +38,6 @@ router.get('/', function(req, res, next) {
   });
 });
 
-
-/* GET home page. */
-router.get('/brewing', function(req, res, next) {
-  res.render('br-index', {
-    title: 'UBports devices'
-  });
-});
-
 router.get('/admin', ensureAuthenticated, function(req, res, next) {
   if (req.user.is_member)
     res.send("public/admin/index.html");
@@ -128,6 +120,36 @@ dbCon.db.sync().then(function() {
       router.get('/auth/me', ensureAuthenticated, function(req, res) {
         res.send(req.user);
       });
+
+      router.get('/api/installer/all', (req, res, next) => {
+        dbCon.installer.all().then((r) => {
+          var dbArr = [];
+          r.forEach((ob) => {
+            dbArr.push({
+              device: ob.device,
+              name: ob.name,
+              install_settings: JSON.parse(ob.install_settings),
+              images: JSON.parse(ob.images),
+              buttons: JSON.parse(ob.buttons),
+              system_server: JSON.parse(ob.system_server)
+            });
+          })
+          res.send(dbArr);
+        })
+      })
+
+      router.get('/api/installer/devices', (req, res, next) => {
+        dbCon.installer.all().then((r) => {
+          var dbArr = [];
+          r.forEach((ob) => {
+            dbArr.push({
+              device: ob.device,
+              name: ob.name
+            });
+          })
+          res.send(dbArr);
+        })
+      })
 
       router.get('/api/devices', function(req, res, next) {
         dbCon.devices.all().then(function(r) {
@@ -225,7 +247,7 @@ dbCon.db.sync().then(function() {
         });
       });
 
-      router.post("/api/device/:device/email/update", function(req, res, next) {
+      router.post("/api/device/:device/email/update", ensureAuthenticated, function(req, res, next) {
         var params = req.body;
         if (typeof params.text !== "string" || typeof req.params.device !== "string") {res.sendStatus(400); return;}
         dbCon.devices.find({where: {device: req.params.device}}).then(function (data) {
@@ -273,7 +295,7 @@ dbCon.db.sync().then(function() {
       });
       });
 
-      router.post("/api/device/:device/email", function(req, res, next) {
+      router.post("/api/device/:device/email", ensureAuthenticated, function(req, res, next) {
         var params = req.body;
         dbCon.emailUpdate.create({email: params.email, device: req.params.device}).then(function () {
           res.sendStatus(200);
@@ -306,6 +328,79 @@ dbCon.db.sync().then(function() {
             if (!r) res.sendStatus(404);
             res.send(200);
           });
+        });
+
+        router.get('/api/installer/:device', function(req, res, next) {
+          dbCon.installer.find({
+            where: {
+              device: req.params.device
+            }
+          }).then(function(r) {
+            if (!r) {
+              res.sendStatus(404)
+            } else {
+              res.send({
+                id: r.id,
+                device: r.device,
+                name: r.name,
+                install_settings: JSON.parse(r.install_settings),
+                images: JSON.parse(r.images),
+                buttons: JSON.parse(r.buttons),
+                system_server: JSON.parse(r.system_server)
+              });
+            }
+          });
+        });
+
+        router.post('/api/installer/all/:api', ensureAuthenticated, function(req, res, next) {
+          var params = req.body;
+          var dbObj = {
+            id: params.id,
+            device: params.device,
+            name: params.name,
+            install_settings: JSON.stringify(params.install_settings),
+            images: JSON.stringify(params.images),
+            buttons: JSON.stringify(params.buttons),
+            system_server: JSON.stringify(params.system_server)
+          }
+          dbCon.installer.create(dbObj).then(function(jane) {
+            res.sendStatus(200);
+          });
+        });
+
+        router.put('/api/installer/all/:api/:id', ensureAuthenticated, function(req, res, next) {
+          var params = req.body;
+          var dbObj = {
+            device: params.device,
+            name: params.name,
+            install_settings: JSON.stringify(params.install_settings),
+            images: JSON.stringify(params.images),
+            buttons: JSON.stringify(params.buttons),
+            system_server: JSON.stringify(params.system_server)
+          }
+          dbCon.installer.update(dbObj, {
+            where: {
+              id: req.params.id
+            }
+          }).then(function(r) {
+            if (!r) res.sendStatus(404);
+            res.send(200);
+          });
+        });
+
+        router.delete('/api/installer/all/:api/:id', ensureAuthenticated, function(req, res, next) {
+            var params = req.body;
+            dbCon.installer.destroy({
+              where: {
+                id: req.params.id
+              }
+            }).then(function(r) {
+              if (!r) {
+                res.sendStatus(404)
+              } else {
+                res.sendStatus(200);
+              }
+            });
         });
 
         router.put('/api/device/vote/:id', ensureAuthenticated, function(req, res, next) {
@@ -349,41 +444,5 @@ dbCon.db.sync().then(function() {
         });
 
 
-      }); // End db block
-    /*
-
-    Unfinised paypal ipn
-
-    router.get('api/paypal/x_foripn', function(req, res, next) {
-    res.send(200);
-    var ipn = require('paypal-ipn');
-    var fs = require('fs');
-    var params = req.params;
-
-    ipn.verify(params, function callback(err, msg) {
-      if (err) {
-        console.error(err);
-      } else {
-        // Do stuff with original params here
-
-        if (params.payment_status == 'Completed') {
-        if (fs.existsSync("../public/devices/"+ params.item_name +".json"))
-            var data = fs.readFileSync("../public/devices/"+ params.item_name +".json", 'utf-8');
-
-
-      fs.writeFileSync('filelistSync.txt', newValue, 'utf-8');
-
-      console.log('readFileSync complete');
-          params.item_name
-
-        }
-      }
-    });
-
-    //You can also pass a settings object to the verify function:
-    ipn.verify(params, {'allow_sandbox': true}, function callback(err, mes) {
-      //The library will attempt to verify test payments instead of blocking them
-    });
-    });
-    */
+      });
     module.exports = router;
