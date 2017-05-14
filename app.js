@@ -12,6 +12,8 @@ var routes = require('./src/routes/apiv1');
 
 var app = express();
 
+app.locals.deployVersion = (new Date).getTime();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'jade');
@@ -23,7 +25,7 @@ app.enable('trust proxy');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: 864000000}));
 app.use(session({ secret: 'jkfdspowropji' }));
 app.use(passport.initialize());
 app.use(passport.session());
