@@ -194,13 +194,13 @@ app.controller('listCtrl', ['$scope', '$http', '$location', function($scope, $ht
 
 app.config(["$routeProvider", function($routeProvider) {
   $routeProvider.when('/new', {
-    templateUrl: 'views/new',
+    templateUrl: 'admin/views/new',
     controller: 'newCtrl'
   }).when('/:device', {
-    templateUrl: 'views/device',
+    templateUrl: 'admin/views/device',
     controller: 'deviceCtrl'
   }).when('/', {
-    templateUrl: 'views/listDevices',
+    templateUrl: 'admin/views/listDevices',
     controller: 'listCtrl'
   }).otherwise({
     rediectTo: '/'
