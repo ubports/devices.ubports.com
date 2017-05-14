@@ -13,6 +13,7 @@
     "cookie-session": "^2.0.0-alpha.1",
     "debug": "~2.2.0",
     "express": "~4.12.4",
+    "geoip-lite": "^1.1.9",
     "inireader": "^1.0.0",
     "jade": "~1.9.2",
     "mailcomposer": "^3.9.0",
