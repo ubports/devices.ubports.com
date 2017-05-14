@@ -16,6 +16,7 @@ app.controller('deviceCtrl', ['$scope', '$http', '$location', '$routeParams', fu
   $scope.item = {};
   $scope.new = {};
   $scope.newWIW = {};
+  var defaultInstaller = {"device":"","name":"","install_settings":{"bootstrap":true,"fastbootboot":false,"method":"system-image"},"images":[],"buttons":{"bootloader":"","recovery":""},"system_server":{"blacklist":[],"selected":""}}
   var defaultWhatIsWorking = {"Wifi": 0, "Graphics": 0, "Boot": 0, "Rotation": 0, "Cellular Radio": 0, "Bluetooth": 0, "GPS": 0 , "Sound": 0, "Touch": 0, "Camera": 0, "Resume": 0};
   $http.get("/api/device/" + $routeParams.device).then(function(data) {
     if (data.status === 200) {
@@ -38,6 +39,38 @@ app.controller('deviceCtrl', ['$scope', '$http', '$location', '$routeParams', fu
 
     }
   });
+
+  $http.get("/api/installer/"+$routeParams.device).then((data) => {
+    if (data.status === 200){
+      $scope.installer = data.data;
+      $scope.installerExists = true
+    }
+    else
+      $scope.installerExists = false
+  })
+
+$scope.createInstaller = () => {
+  $scope.installer = defaultInstaller;
+  $scope.installer.device = $scope.item.device;
+  $scope.installer.name = $scope.item.name;
+}
+
+$scope.newImages = {
+  remove: function (i) {
+    $scope.installer.images.splice(i, 1);
+  },
+  add: function () {
+    if (!$scope.installer.images) $scope.installer.images = {};
+    $scope.installer.images.push({
+      type: $scope.newImagesItem.type,
+      url: $scope.newImagesItem.url,
+      checksum: $scope.newImagesItem.checksum
+    })
+    $scope.newImagesItem = {}
+  }
+}
+
+$scope.newImagesItem = {}
 
 $scope.aboutDevice = {
   remove: function (i) {
@@ -67,10 +100,35 @@ $scope.whatIsWorking = {
 
   var debounceLoadingF = function () {
     $scope.saved = false;
+    $scope.installerSaved = false;
     $scope.$apply();
   }
 
   var debounceLoading = _.debounce(debounceLoadingF, 1000);
+
+  $scope.installerSave = () => {
+    $scope.installerLoadingSave = true;
+    if ($scope.installer.system_server.blacklist.length !== 0)
+      $scope.installer.system_server.blacklist = $scope.installer.system_server.blacklist.split(",")
+    if ($scope.installerExists) {
+      $http.put("/api/installer/all/frasdfvdwdeqwdsafqwrawdsagfhtrjtagr/"+$scope.installer.id, $scope.installer).then((data) => {
+        if (data.status === 200){
+          $scope.installerLoadingSave = false;
+          $scope.installerSaved = true;
+          debounceLoading();
+        }
+      })
+    }else{
+      $http.post("/api/installer/all/frasdfvdwdeqwdsafqwrawdsagfhtrjtagr/", $scope.installer).then((data) => {
+        if (data.status === 200){
+          $scope.installerExists = true;
+          $scope.installerLoadingSave = false;
+          $scope.installerSaved = true;
+          debounceLoading();
+        }
+      })
+    }
+  }
 
   $scope.save = function() {
     $scope.loadingSave = true;
@@ -139,10 +197,10 @@ app.config(["$routeProvider", function($routeProvider) {
     templateUrl: 'views/new',
     controller: 'newCtrl'
   }).when('/:device', {
-    templateUrl: 'views/device.html',
+    templateUrl: 'views/device',
     controller: 'deviceCtrl'
   }).when('/', {
-    templateUrl: 'views/listDevices.html',
+    templateUrl: 'views/listDevices',
     controller: 'listCtrl'
   }).otherwise({
     rediectTo: '/'

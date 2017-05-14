@@ -11,6 +11,7 @@ var request = require("request");
 var bitcoin = require("../models/bitcoin");
 var mailgun = require('mailgun').Mailgun;
 var mailcomposer = require("mailcomposer");
+var geoip = require('geoip-lite');
 
 var mg = new mailgun(config.mailgun);
 var dbCon = new db.db();
@@ -30,22 +31,20 @@ router.get('/auth/logout', function(req, res) {
   res.redirect('/');
 });
 
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', {
-    title: 'UBports devices'
-  });
-});
-
 router.get('/admin', ensureAuthenticated, function(req, res, next) {
+  if (process.env.DEBUG){
+    res.render('admin/index');
+    return;
+  }
   if (req.user.is_member)
-    res.send("public/admin/index.html");
+    res.render('admin/index');
   else;
   res.send("<center><h1>access denied (non admin)</h1></center>");
 });
 
 function ensureAuthenticated(req, res, next) {
+  if (process.env.DEBUG)
+    return next();
   if (!req.isAuthenticated()) res.status(401).send("Unauthorized");
   if (req.user.is_member) {
     return next();
@@ -118,6 +117,10 @@ dbCon.db.sync().then(function() {
 
 
       router.get('/auth/me', ensureAuthenticated, function(req, res) {
+        if (process.env.DEBUG){
+          res.send(200)
+          return;
+        }
         res.send(req.user);
       });
 
@@ -193,6 +196,14 @@ dbCon.db.sync().then(function() {
 
       router.get('/api/devices/all', function(req, res, next) {
         dbCon.devices.all().then(function(r) {
+          res.send(r);
+        });
+      });
+
+      router.get('/api/installer/success', function(req, res, next) {
+        dbCon.installSuccess.findAll({
+          attributes: ["device", "channel", "geo"]
+        }).then(function(r) {
           res.send(r);
         });
       });
@@ -364,6 +375,21 @@ dbCon.db.sync().then(function() {
             system_server: JSON.stringify(params.system_server)
           }
           dbCon.installer.create(dbObj).then(function(jane) {
+            res.sendStatus(200);
+          });
+        });
+
+        router.post('/api/installer/success', function(req, res, next) {
+          var params = req.body;
+          var ip = req.ip;
+          var geo = geoip.lookup(ip).country || "N/A";
+          var dbObj = {
+            channel: params.channel,
+            device: params.device,
+            ip: ip,
+            geo: geo
+          }
+          dbCon.installSuccess.create(dbObj).then(function(jane) {
             res.sendStatus(200);
           });
         });

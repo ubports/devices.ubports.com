@@ -189,10 +189,10 @@ app.config(["$routeProvider", function($routeProvider){
         templateUrl: 'views/new',
         controller: 'newCtrl'
     }).when('/:device', {
-        templateUrl: 'views/device.html',
+        templateUrl: 'views/device',
         controller: 'deviceCtrl'
     }).when('/', {
-        templateUrl: 'views/index.html',
+        templateUrl: 'views/index',
         controller: 'appCtrl'
     }).otherwise({
         rediectTo: '/'

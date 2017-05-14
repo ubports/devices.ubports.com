@@ -1,0 +1,12 @@
+html
+  body
+    table.table.table-hover
+      thead
+        tr
+          th #
+          th Device
+      tbody
+        tr(ng-repeat='device in devices', ng-click='go(device.device)')
+          th {{$index}}
+          th {{device.device}}
+    button.btn(ng-click="go('newDevice')") Add new device

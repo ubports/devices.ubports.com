@@ -48,6 +48,12 @@ var db = function() {
     system_server: Sequelize.TEXT
   })
 
+  this.installSuccess = this.db.define('installSuccess', {
+    device: Sequelize.STRING,
+    channel: Sequelize.STRING,
+    geo: Sequelize.STRING
+  })
+
   this.devices = this.db.define('devices', {
     name: Sequelize.STRING,
     device: Sequelize.STRING,

@@ -1,0 +1,239 @@
+html
+  body
+    .panel.panel-default(ng-if='deviceExist')
+      .panel-heading System Image
+      .panel-body
+        table.table.table-borderless
+          tbody
+            tr
+              td
+                | devel-proposed
+              td
+                | {{systemImage.devel}}
+              td(style='text-align: right; width: 80%')
+                button.btn.btn-xs.btn-warning(type='button', style='width: 300px;') Promote devel-proposed to rc-proposed
+            tr
+              td
+                | rc-proposed
+              td
+                | {{systemImage.rc}}
+              td(style='text-align: right; width: 80%')
+                button.btn.btn-xs.btn-warning(type='button', style='width: 300px;') Promote rc-proposed to stable
+            tr
+              td
+                | stable
+              td
+                | {{systemImage.stable}}
+              td
+    .panel.panel-default
+      .panel-heading Device Settings
+      .panel-body
+        form
+          table.table.table-borderless
+            tbody
+              tr
+                th Name
+                th
+                  input.form-control(ng-model='item.name')
+              tr
+                th Device
+                th
+                  input.form-control(ng-model='item.device')
+              tr
+                th Priority
+                th
+                  input.form-control(ng-model='item.pri', type='number')
+              tr
+                th Donations
+                th
+                  input.form-control(ng-model='item.donates', type='number')
+              tr
+                th Device Price
+                th
+                  input.form-control(ng-model='item.price', type='number')
+              tr
+                th Maintainer
+                th
+                  input.form-control(ng-model='item.maintainer')
+              tr
+                th Status
+                th
+                  .radio
+                    label
+                      input(ng-model='item.status', ng-value='1', type='radio', checked='')
+                      |  Vote device
+                  .radio
+                    label
+                      input(ng-model='item.status', ng-value='2', type='radio')
+                      |  Waiting device
+                  .radio
+                    label
+                      input(ng-model='item.status', ng-value='3', type='radio')
+                      |  Development device
+                  .radio
+                    label
+                      input(ng-model='item.status', ng-value='4', type='radio')
+                      |  Release device
+              tr
+                th progress done percentage 0-&gt;100
+                th
+                  input.form-control(ng-model='item.done', type='number')
+              tr
+                th What is working
+                th
+                  ul.list-group
+                    li.list-group-item(ng-repeat='(i, v) in item.whatIsWorking')
+                      div(style='display: flex; justify-content: space-between;')
+                        div(style='width: 30%;')
+                          | {{i}}
+                        div
+                          label.radio-inline
+                            input(type='radio', ng-model='item.whatIsWorking[i]', ng-value='0')
+                            |  Disable
+                          label.radio-inline
+                            input(type='radio', ng-model='item.whatIsWorking[i]', ng-value='1')
+                            |  False
+                          label.radio-inline
+                            input(type='radio', ng-model='item.whatIsWorking[i]', ng-value='2')
+                            |  True
+                        button.btn.btn-default.btn-sm(type='button', ng-click='whatIsWorking.remove(i)')
+                          span.glyphicon.glyphicon-remove-sign
+                          |  Remove
+                    li.list-group-item
+                      div(style='display: flex; justify-content: space-between;')
+                        input(style='width: 30%;', ng-model='newWIW.item')
+                        div
+                          label.radio-inline
+                            input(type='radio', ng-model='newWIW.value', ng-value='0')
+                            |  Disable
+                          label.radio-inline
+                            input(type='radio', ng-model='newWIW.value', ng-value='1')
+                            |  False
+                          label.radio-inline
+                            input(type='radio', ng-model='newWIW.value', ng-value='2')
+                            |  True
+                        button.btn.btn-default.btn-sm(type='button', ng-click='whatIsWorking.add()')
+                          span.glyphicon.glyphicon-plus-sign
+                          |  Add
+              tr
+                th Comment
+                th
+                  input.form-control(ng-model='item.comment')
+              tr
+                th About Device
+                th
+                  ul.list-group
+                    li.list-group-item(ng-repeat='(i, v) in item.about')
+                      div(style='display: flex; justify-content: space-between;')
+                        | {{i}}
+                        input(ng-model='item.about[i]')
+                        button.btn.btn-default.btn-sm(type='button', ng-click='aboutDevice.remove(i)')
+                          span.glyphicon.glyphicon-remove-sign
+                          |  Remove
+                    li.list-group-item
+                      div(style='display: flex; justify-content: space-between;')
+                        input(ng-model='new.item')
+                        input(ng-model='new.text')
+                        button.btn.btn-default.btn-sm(type='button', ng-click='aboutDevice.add()')
+                          span.glyphicon.glyphicon-plus-sign
+                          |  Add
+              tr
+                th Multirom
+                th
+                  .checkbox
+                    label
+                      input(ng-model='item.multirom', type='checkbox')
+                      |  Yes
+          button.btn(ng-click='save()', type='button') Save
+          span.glyphicon.glyphicon-cog(ng-if='loadingSave', aria-hidden='true')
+          span.glyphicon.glyphicon-ok(ng-if='saved', style='color: green;', aria-hidden='true')
+  .panel.panel-default
+    .panel-heading Ubports installer
+    .panel-body(ng-if="installer")
+      form
+        table.table.table-borderless
+          tbody
+            tr
+              th Install settings
+              th
+                ul.list-group
+                  li.list-group-item
+                    div(style='display: flex; justify-content: space-between;')
+                      div(style='width: 30%;')
+                        | bootstrap
+                      div
+                        label.radio-inline
+                          input(type='checkbox', ng-model='installer.install_settings.bootstrap', ng-value='0')
+                          |  Enable
+                  li.list-group-item
+                    div(style='display: flex; justify-content: space-between;')
+                      div(style='width: 30%;')
+                        | fastbootboot
+                      div
+                        label.radio-inline
+                          input(type='checkbox', ng-model='installer.install_settings.fastbootboot', ng-value='0')
+                          |  Enable
+                  li.list-group-item
+                    div(style='display: flex; justify-content: space-between;')
+                      div(style='width: 30%;')
+                        | method
+                      div
+                        input.form-control(ng-model='installer.install_settings.method')
+            tr
+              th Images
+              th
+                ul.list-group
+                  li.list-group-item(ng-repeat='(i, v) in installer.images')
+                    div(style='display: flex; justify-content: space-between;')
+                      input(ng-model='v.type')
+                      input(ng-model='v.url')
+                      input(ng-model='v.checksum')
+                      button.btn.btn-default.btn-sm(type='button', ng-click='newImages.remove(i)')
+                        span.glyphicon.glyphicon-remove-sign
+                        |  Remove
+                  li.list-group-item
+                    div(style='display: flex; justify-content: space-between;')
+                      input(ng-model='newImagesItem.type')
+                      input(ng-model='newImagesItem.url')
+                      input(ng-model='newImagesItem.checksum')
+                      button.btn.btn-default.btn-sm(type='button', ng-click='newImages.add()')
+                        span.glyphicon.glyphicon-plus-sign
+                        |  Add
+            tr
+              th Buttons
+              th
+                ul.list-group
+                  li.list-group-item
+                    div(style='display: flex; justify-content: space-between;')
+                      div(style='width: 30%;')
+                        | Recovery
+                      div
+                        input.form-control(ng-model='installer.buttons.recovery')
+                  li.list-group-item
+                    div(style='display: flex; justify-content: space-between;')
+                      div(style='width: 30%;')
+                        | bootloader
+                      div
+                        input.form-control(ng-model='installer.buttons.bootloader')
+
+            tr
+              th System-image
+              th
+                ul.list-group
+                  li.list-group-item
+                    div(style='display: flex; justify-content: space-between;')
+                      div(style='width: 30%;')
+                        | blacklist
+                      div
+                        input.form-control(ng-model='installer.system_server.blacklist')
+                  li.list-group-item
+                    div(style='display: flex; justify-content: space-between;')
+                      div(style='width: 30%;')
+                        | selected
+                      div
+                        input.form-control(ng-model='installer.system_server.selected')
+      button.btn(ng-click='installerSave()', type='button') Save
+      span.glyphicon.glyphicon-cog(ng-if='installerLoadingSave', aria-hidden='true')
+      span.glyphicon.glyphicon-ok(ng-if='installerSaved', style='color: green;', aria-hidden='true')
+    .panel-body(ng-if="!installer")
+      button.btn(ng-click='createInstaller()', type='button') Create installer
