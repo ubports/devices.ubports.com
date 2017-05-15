@@ -3,39 +3,65 @@
       | # {{device.pri}} {{name}} ({{device.device}})
       h1(ng-if='loading || !found') {{name}}
     .row(ng-if='found && !loading')
+      h2(style="margin-left: 15px;") How to install
       .col-md-8
-        .panel.panel-default
-          .panel-heading
-            h3.panel-title Status
-          .panel-body
-            .row.bs-wizard(style='border-bottom:0;')
-              .col-xs-3.bs-wizard-step(class='{{getStatus(1)}}')
-                .text-center.bs.wizard-stepnum Vote
-                .progress
-                  .progress-bar
-                a.bs-wizard-dot
-                .bs-wizard-info.text-center
-                  | There is no debug device bought yet. Development cannot be done without a debug device.
-              .col-xs-3.bs-wizard-step(class='{{getStatus(2)}}')
-                .text-center.bs.wizard-stepnum Waiting
-                .progress
-                  .progress-bar
-                a.bs-wizard-dot
-                .bs-wizard-info.text-center
-                  | The device is bought and is currently waiting for shipping or waiting for a available developer.
-              .col-xs-3.bs-wizard-step(class='{{getStatus(3)}}')
-                .text-center.bs.wizard-stepnum Development
-                .progress
-                  .progress-bar
-                a.bs-wizard-dot
-                .bs-wizard-info.text-center The device is currently under development.
-              .col-xs-3.bs-wizard-step(class='{{getStatus(4)}}')
-                .text-center.bs.wizard-stepnum Release
-                .progress
-                  .progress-bar
-                a.bs-wizard-dot
-                .bs-wizard-info.text-center
-                  | The device is a port with all the important parts working, such as wifi, call, sms, data, camera, OTA, and sound.
+        div(ng-if='device.status !== 1')
+          .panel.panel-default(ng-if='!device.mdt')
+            .panel-heading Install using MDT
+            .panel-body
+              p
+                | Connect the device to the computer with the USB cable
+              p
+                | Ensure you have Git installed, and clone the repository to your local machine from GitHub
+              pre.
+                git clone https://github.com/MariusQuabeck/magic-device-tool.git
+              p cd into the new directory
+              pre.
+                cd magic-device-tool
+              p Run the script
+              pre.
+                ./launcher.sh
+              p Then follow the simple on-screen guide
+            .panel-footer
+              p.text-center(style='margin 0;')
+                | MDT tool by Marius Quabeck:
+                a(href='https://github.com/MariusQuabeck/magic-device-tool')
+                  | https://github.com/MariusQuabeck/magic-device-tool
+          .panel.panel-default(ng-if='!device.system-server')
+            .panel-heading Install using system-image server
+            .panel-body
+              p
+                | 1. Install the required tools:
+              pre.
+                sudo apt-get install ubuntu-device-flash phablet-tools
+              p(ng-if='device.fastboot-buttons')
+                | 2. Reboot your device into fastboot mode ({device.fastboot-buttons}) and Connect your device with an USB cable to your computer.
+              p(ng-if='!device.fastboot-buttons')
+                | 2. Reboot your device into fastboot mode and Connect your device with an USB cable to your computer.
+              p
+                | 3. Flash your device using this command: (
+                b NOTE! This will wipe your phone!
+                | )
+              pre.
+                sudo ubuntu-device-flash --server=http://system-image.ubports.com touch --channel=ubports-touch/legacy --device={{device.device}} --bootstrap
+          .panel.panel-default(ng-if='device.multirom')
+            .panel-heading Install using Multirom
+            .panel-body
+              | See the wiki:
+              a(href='{{device.wiki}}') {{device.wiki}}
+      .col-md-4
+        .panel.panel-default(ng-if="device.whatIsWorking != '{}'")
+          .panel-heading What&apos;s working
+          ul.list-group
+            div(ng-repeat='value in toObj(device.whatIsWorking) | orderBy')
+              li.list-group-item.list-group-item-success(ng-if='getValue(value) == 2') {{getKey(value)}}
+              li.list-group-item.list-group-item-danger(ng-if='getValue(value) != 2') {{getKey(value)}}
+        .panel.panel-default(ng-if="device.about !== '{}'")
+          .panel-heading About Device
+          table.table
+            tr(ng-repeat='(key, value) in toObj(device.about)')
+              td {{key}}
+              td {{value}}
         .panel.panel-default
           .panel-heading
             h3.panel-title Donations
@@ -75,7 +101,7 @@
               br
               .form-group
                 label(style='margin-right: 5px;') Your Donation:
-              .input-group(style='margin-right: 5px;')
+              .input-group(style='width: 100%;')
                 .input-group-addon
                   span.fa(class="{{paymethod('', 'fa')}}")
                 input.form-control(type='number', placeholder='Amount', ng-model='payAmout')
@@ -87,85 +113,17 @@
               input(type='hidden', name='currency_code', value='USD')
               input(type='hidden', name='no_note', value='0')
               input(type='hidden', name='bn', value='PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest')
-              button.btn.btn-primary(border='0', name='submit', alt='PayPal - The safer, easier way to pay online!') Donate
+              div.text-center(style="margin-top: 7px;")
+                button.btn.btn-primary.text-center(border='0', name='submit', alt='PayPal - The safer, easier way to pay online!') Donate
             div(style='text-align: center;', ng-if="paymethod('bitcoin', 'bool')")
               p Bitcoin Address:
               pre.
-                \n1DpvghKwhrwZyyCyWMQ2tnLaV3yEznFndB
-            div(style='text-align: left;', ng-if="paymethod('mobile', 'bool')")
-              p
-                | If you want to donate an device, please send an email to me@mariogrip.com with the subject &quot;Donate device {{device.name}}&quot; and a general description of the condition of the device.
+                1DpvghKwhrwZyyCyWMQ2tnLaV3yEznFndB
             hr
             .jumbotron
               h2 Monthly supporter
-              p
-                | If you enjoyed the ride so far, please consider becoming a monthly supporter at
-                a(href='http://www.patreon.com/ubports') Patreon
-                |  and help found a full time worker on Ubports which will help Ubports grow and make development much
-                |                         faster!
+              p If you enjoyed the ride so far, please consider becoming a monthly supporter
               a.btn.btn-primary.btn-lg(href='http://www.patreon.com/ubports') Become a Patron
-      .col-md-4
-        .panel.panel-default(ng-if="device.whatIsWorking != '{}'")
-          .panel-heading What&apos;s working
-          ul.list-group
-            div(ng-repeat='value in toObj(device.whatIsWorking) | orderBy')
-              li.list-group-item.list-group-item-success(ng-if='getValue(value) == 2') {{getKey(value)}}
-              li.list-group-item.list-group-item-danger(ng-if='getValue(value) != 2') {{getKey(value)}}
-    .row(ng-if='found && !loading')
-      .col-md-8
-        div(ng-if='device.status !== 1')
-          h2 How to install
-          br
-          .panel.panel-default(ng-if='device.mdt')
-            .panel-heading Install using MDT
-            .panel-body
-              p
-                | Connect the device to the computer with the USB cable
-              p
-                | Ensure you have Git installed, and clone the repository to your local machine from GitHub
-              pre.
-                \ngit clone https://github.com/MariusQuabeck/magic-device-tool.git
-              p cd into the new directory
-              pre.
-                \ncd magic-device-tool
-              p Run the script
-              pre.
-                \n./launcher.sh
-              p Then follow the simple on-screen guide
-            .panel-footer
-              p.text-center(style='margin 0;')
-                | MDT tool by Marius Quabeck:
-                a(href='https://github.com/MariusQuabeck/magic-device-tool')
-                  | https://github.com/MariusQuabeck/magic-device-tool
-          .panel.panel-default(ng-if='device.system-server')
-            .panel-heading Install using system-image server
-            .panel-body
-              p
-                | 1. Install the required tools:
-              pre.
-                \nsudo apt-get install ubuntu-device-flash phablet-tools
-              p(ng-if='device.fastboot-buttons')
-                | 2. Reboot your device into fastboot mode ({device.fastboot-buttons}) and Connect your device with an USB cable to your computer.
-              p(ng-if='!device.fastboot-buttons')
-                | 2. Reboot your device into fastboot mode and Connect your device with an USB cable to your computer.
-              p
-                | 3. Flash your device using this command: (
-                b NOTE! This will wipe your phone!
-                | )
-              pre.
-                \nsudo ubuntu-device-flash --server=http://system-image.ubports.com touch --channel=ubuntu-touch/stable --device={{device.device}} --bootstrap
-          .panel.panel-default(ng-if='device.multirom')
-            .panel-heading Install using Multirom
-            .panel-body
-              | See the wiki:
-              a(href='{{device.wiki}}') {{device.wiki}}
-      .col-md-4
-        .panel.panel-default(ng-if="device.about !== '{}'")
-          .panel-heading About Device
-          table.table
-            tr(ng-repeat='(key, value) in toObj(device.about)')
-              td {{key}}
-              td {{value}}
     .row(ng-if='!found && !loading')
       h2 Device {{name}} not found!
     .row(ng-if='loading', align='center', style='text-align: center;')
