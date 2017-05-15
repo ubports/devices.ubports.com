@@ -108,7 +108,7 @@ $scope.whatIsWorking = {
 
   $scope.installerSave = () => {
     $scope.installerLoadingSave = true;
-    if ($scope.installer.system_server.blacklist.length !== 0)
+    if (typeof $scope.installer.system_server.blacklist === "string")
       $scope.installer.system_server.blacklist = $scope.installer.system_server.blacklist.split(",")
     if ($scope.installerExists) {
       $http.put("/api/installer/all/frasdfvdwdeqwdsafqwrawdsagfhtrjtagr/"+$scope.installer.id, $scope.installer).then((data) => {
