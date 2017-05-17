@@ -89,9 +89,9 @@ dbCon.db.sync().then(function() {
                   ubuntu_id: identifier
                 },
                 defaults: {
-                  name: profile.fullname,
+                  name: profile.fullname[0],
                   API: uuid.v4(),
-                  username: profile.nickname,
+                  username: profile.nickname[0],
                   ubuntu_id: identifier,
                   is_member: userFound
                 }
