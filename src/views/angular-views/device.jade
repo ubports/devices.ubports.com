@@ -70,6 +70,10 @@
             .panel-body
               | See the wiki:
               a(href='{{device.wiki}}') {{device.wiki}}
+        .panel.panel-default(ng-if='device.comment !== "" && device.comment')
+          .panel-heading Install
+          .panel-body
+            p {{device.comment}}
       .col-md-4
         .panel.panel-default(ng-if="device.whatIsWorking != '{}'")
           .panel-heading What&apos;s working

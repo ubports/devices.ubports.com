@@ -19,7 +19,7 @@ html
           td {{item.id}}
           td {{item.name}}
           td {{item.device}}
-          td(style='width: 45%')
+          td(style='width: 45%; max-width: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;')
             | {{item.comment}}
           td
             span.fa.fa-chevron-right.pull-right
@@ -45,7 +45,7 @@ html
           td {{item.id}}
           td {{item.name}}
           td {{item.device}}
-          td(style='width: 45%')
+          td(style='width: 45%; max-width: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;')
             | {{item.comment}}
           td
             span.fa.fa-chevron-right.pull-right
@@ -69,7 +69,7 @@ html
           td {{item.id}}
           td {{item.name}}
           td {{item.device}}
-          td(style='width: 45%')
+          td(style='width: 45%; max-width: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;')
             | {{item.comment}}
           td
             span.fa.fa-chevron-right.pull-right(ng-if="item.wiki")
