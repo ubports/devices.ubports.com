@@ -1,16 +1,13 @@
 html
   body
-    .page-header
-      h1
     .panel.panel-default
-      .panel-heading Active Devices
+      .panel-heading Core Devices
       .panel-body
-        p
-          | Active devices are devices that are fully working as daily drivers, it requires to have wifi, call, sms, data, OTA, apparmor and sound to be working to be an &quot;Active device&quot;.
+        p Core Devices is the Devices that will fully follow the development of Ubports and will get all the new features, critical security-updates and bug-fixes.
       table.table.table-hover
         thead
           tr
-            th Priority
+            th Id
             th Name
             th Device
             th Comment
@@ -19,7 +16,7 @@ html
           th(colspan='5', style='text-align: center;')
             span.fa.fa-refresh.fa-spin.fa-3x
         tr(ng-if='hasActiveDev', ng-repeat='item in activeDevices', ng-click='go(item.device)')
-          td {{item.pri}}
+          td {{item.id}}
           td {{item.name}}
           td {{item.device}}
           td(style='width: 45%')
@@ -30,51 +27,49 @@ html
           th(colspan='5', style='text-align: center;') Sorry, there is no &quot;Active&quot; devices yet!
     br
     .panel.panel-default
-      .panel-heading Inprogress Devices
+      .panel-heading Legacy Devices
       .panel-body
-        | Inprogress devices are devices that are not yet ready to use daily, due to missing important functions. These devices are under heavy development.
+        p Legacy Devices is devices that most likely only will get critical security-updates and bug-fixes. New features might appear from time to time.
       table.table.table-hover
         thead
           tr
-            th Priority
+            th Id
             th Name
             th Device
-            th Devopment done
+            th Comment
             th(style='width: 3%;')
         tr(ng-if='loading', align='center')
           th(colspan='5', style='text-align: center;')
             span.fa.fa-refresh.fa-spin.fa-3x
         tr(ng-repeat='item in progressDevices', ng-click='go(item.device)')
-          td {{item.pri}}
+          td {{item.id}}
           td {{item.name}}
           td {{item.device}}
           td(style='width: 45%')
-            .progress
-              .progress-bar(role='progressbar', aria-valuenow='{{item.done}}', aria-valuemin='0', aria-valuemax='100', style='width: {{item.done}}%; color: black;') {{item.done}}%
+            | {{item.comment}}
           td
             span.fa.fa-chevron-right.pull-right
     br
     .panel.panel-default
-      .panel-heading Voting Devices
+      .panel-heading Development Devices
       .panel-body
-        | Voting device are devices that haven&apos;t started development, users can vote (donate) for devices they want to get ported. A device will need to be bought so we can develop on it. Priority will be ranked after donate to debug device percentage.
+        p Development devices are devices that development haven't yet started yet but it's planed or development just started. You cannot install these devices from our server yet.
       table.table.table-hover
         thead
           tr
-            th Priority
+            th Id
             th Name
             th Device
-            th Donations to Debug device
+            th Comment
             th(style='width: 3%;')
         tr(ng-if='loading', align='center')
           th(colspan='5', style='text-align: center;')
             span.fa.fa-refresh.fa-spin.fa-3x
-        tr(ng-repeat='item in voteDevices', ng-click='go(item.device)')
-          td {{item.pri}}
+        tr(ng-repeat='item in voteDevices', ng-click='goWiki(item.wiki)')
+          td {{item.id}}
           td {{item.name}}
           td {{item.device}}
           td(style='width: 45%')
-            .progress
-              .progress-bar(role='progressbar', aria-valuenow='{{item.donates}}', aria-valuemin='0', aria-valuemax='{{item.price}}', style='width: {{item.donates/item.price*100}}%; color: black;') {{item.donates/item.price*100}}%
+            | {{item.comment}}
           td
-            span.fa.fa-chevron-right.pull-right
+            span.fa.fa-chevron-right.pull-right(ng-if="item.wiki")

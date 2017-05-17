@@ -72,7 +72,9 @@ var db = function() {
     multirom: Sequelize.BOOLEAN,
     done: Sequelize.INTEGER,
     request: Sequelize.BOOLEAN,
-    comment: Sequelize.STRING
+    comment: Sequelize.STRING,
+    adbRecovery: Sequelize.STRING,
+    mdt: Sequelize.BOOLEAN
   });
 
 };

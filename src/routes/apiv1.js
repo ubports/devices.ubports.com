@@ -31,7 +31,7 @@ router.get('/auth/logout', function(req, res) {
   res.redirect('/');
 });
 
-router.get('/admin', ensureAuthenticated, function(req, res, next) {
+router.get('/admin', function(req, res, next) {
   if (process.env.DEBUG){
     res.render('admin/index');
     return;
@@ -45,7 +45,10 @@ router.get('/admin', ensureAuthenticated, function(req, res, next) {
 function ensureAuthenticated(req, res, next) {
   if (process.env.DEBUG)
     return next();
-  if (!req.isAuthenticated()) res.status(401).send("Unauthorized");
+  if (!req.isAuthenticated()) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
   if (req.user.is_member) {
     return next();
   } else {

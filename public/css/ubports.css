@@ -5,6 +5,19 @@ body {
     color: #787878;
 }
 
+.panel-heading2 {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff !important;
+  background-color: #787878 !important;
+}
+.panel-heading {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff !important;
+  background-color: #E95420 !important;
+}
+
 .itemName {
     text-align: center;
 }

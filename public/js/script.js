@@ -54,6 +54,11 @@ app.controller('appCtrl', ['$scope', '$http', '$location', '$uibModal', '$cookie
         console.log(goto);
         $location.url("/"+goto);
     }
+    $scope.goWiki = function(goto){
+        if (!goto) return;
+        console.log(goto);
+        $location.url(goto);
+    }
 }]);
 
 app.controller('newCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){

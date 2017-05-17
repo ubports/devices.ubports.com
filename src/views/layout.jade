@@ -11,7 +11,7 @@ head
   // Bootstrap Core CSS
   link(href='/css/bootstrap.css?v=#{deployVersion}', rel='stylesheet')
   link(href='/css/style.css?v=#{deployVersion}', rel='stylesheet')
-  link(href='/css/ubuntu.css?v=#{deployVersion}', rel='stylesheet')
+  link(href='/css/ubports.css?v=#{deployVersion}', rel='stylesheet')
   // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
   // WARNING: Respond.js doesn't work if you view the page via file://
   //if lt IE 9
@@ -26,7 +26,7 @@ head
             div(data-role='actions-overflow-list', ng-class='{opened: opened}')
               ul
                 li
-                  a(ng-click='opened = false', href='https://devices.ubports.com/#/') Devices
+                  a(ng-click='opened = false', href='https://devices.ubports.com') Devices
                 li
                   a(ng-click='opened = false', href='https://forums.ubports.com') Forums
                 li
@@ -34,21 +34,21 @@ head
                 li
                   a(ng-click='opened = false', href='https://blog.ubports.com') Blog
                 li
-                  a(ng-click='opened = false', href='https://ubports.com/get-involved') Get Involved
+                  a(ng-click='opened = false', href='/get-involved') Get Involved
                 li
-                  a(ng-click='opened = false', href='https://ubports.com/sponsors') Sponsors
+                  a(ng-click='opened = false', href='/faq') FAQ
                 li
-                  a(ng-click='opened = false', href='https://ubports.com/team') Team
-          a.navbar-brand.ng-cloak(href='/apps', ng-if="$state.current.name == 'app'")
+                  a(ng-click='opened = false', href='/sponsors') Sponsors
+                li
+                  a(ng-click='opened = false', href='/team') Team
+          a.navbar-brand(href='/')
             div(data-role='back-btn')
-            | UBports
-          a.navbar-brand(href='https://ubports.com', ng-if="$state.current.name != 'app'")
-            div(data-role='back-btn', ng-if="$state.current.name != 'main'")
+                img.himg(src="/img/robot-t.png")
             | UBports
         .navbar-collapse.navbar-right.hidden-xs.hidden-sm
           ul.nav.navbar-nav
             li
-              a(href='https://devices.ubports.com/#/') Devices
+              a(href='https://devices.ubports.com') Devices
             li
               a(href='https://forums.ubports.com') Forums
             li
@@ -56,17 +56,18 @@ head
             li
               a(href='https://blog.ubports.com') Blog
             li
-              a(href='https://ubports.com/get-involved') Get Involved
+              a(href='/get-involved') Get Involved
             li
-              a(href='https://ubports.com/sponsors') Sponsors
+              a(href='/faq') FAQ
             li
-              a(href='https://ubports.com/team') Team
+              a(href='/sponsors') Sponsors
+            li
+              a(href='/team') Team
 
     .container(data-role='content')
       block content
       br
       center
-        p Cannot find your device? send an email to me@mariogrip.com with your device.
         p
           a(href='https://www.digitalocean.com/')
             img(src='/img/DigitalOcean.png', width='200', height='43')
