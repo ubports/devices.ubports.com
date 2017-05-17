@@ -32,19 +32,10 @@ router.get('/auth/logout', function(req, res) {
 });
 
 router.get('/admin', function(req, res, next) {
-  if (process.env.DEBUG){
     res.render('admin/index');
-    return;
-  }
-  if (req.user.is_member)
-    res.render('admin/index');
-  else;
-  res.send("<center><h1>access denied (non admin)</h1></center>");
 });
 
 function ensureAuthenticated(req, res, next) {
-  if (process.env.DEBUG)
-    return next();
   if (!req.isAuthenticated()) {
     res.status(401).send("Unauthorized");
     return;
@@ -120,10 +111,6 @@ dbCon.db.sync().then(function() {
 
 
       router.get('/auth/me', ensureAuthenticated, function(req, res) {
-        if (process.env.DEBUG){
-          res.send(200)
-          return;
-        }
         res.send(req.user);
       });
 
