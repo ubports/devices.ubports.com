@@ -7,23 +7,9 @@ html
           tbody
             tr
               td
-                | devel-proposed
+                | legacy
               td
-                | {{systemImage.devel}}
-              td(style='text-align: right; width: 80%')
-                button.btn.btn-xs.btn-warning(type='button', style='width: 300px;') Promote devel-proposed to rc-proposed
-            tr
-              td
-                | rc-proposed
-              td
-                | {{systemImage.rc}}
-              td(style='text-align: right; width: 80%')
-                button.btn.btn-xs.btn-warning(type='button', style='width: 300px;') Promote rc-proposed to stable
-            tr
-              td
-                | stable
-              td
-                | {{systemImage.stable}}
+                | {{systemImage.legacy}}
               td
     .panel.panel-default
       .panel-heading Device Settings
@@ -44,14 +30,6 @@ html
                 th
                   input.form-control(ng-model='item.pri', type='number')
               tr
-                th Donations
-                th
-                  input.form-control(ng-model='item.donates', type='number')
-              tr
-                th Device Price
-                th
-                  input.form-control(ng-model='item.price', type='number')
-              tr
                 th Maintainer
                 th
                   input.form-control(ng-model='item.maintainer')
@@ -70,10 +48,6 @@ html
                     label
                       input(ng-model='item.status', ng-value='4', type='radio')
                       |  Core Device
-              tr
-                th progress done percentage 0-&gt;100
-                th
-                  input.form-control(ng-model='item.done', type='number')
               tr
                 th What is working
                 th
@@ -111,6 +85,9 @@ html
                         button.btn.btn-default.btn-sm(type='button', ng-click='whatIsWorking.add()')
                           span.glyphicon.glyphicon-plus-sign
                           |  Add
+                  button.btn.btn-default.btn-sm(type='button', ng-click='setDefaultWhatsWorking()')
+                    span.glyphicon.glyphicon-plus-sign
+                    |  Set default (this will reset evey whatsWorking)
               tr
                 th Comment
                 th
@@ -133,6 +110,23 @@ html
                         button.btn.btn-default.btn-sm(type='button', ng-click='aboutDevice.add()')
                           span.glyphicon.glyphicon-plus-sign
                           |  Add
+                tr
+                  th systemImage
+                  th
+                    input.form-control(ng-model='item.systemImage')
+                    p false = disabled, [nothing] = enabled, text = enabled with spesific channel
+              tr
+                th ADB recovery url
+                th
+                  input.form-control(ng-model='item.adbRecovery')
+                  p [nothing] = disabled, url = enabled
+              tr
+                th MDT
+                th
+                  .checkbox
+                    label
+                      input(ng-model='item.mdt', type='checkbox')
+                      |  Yes
               tr
                 th Multirom
                 th
@@ -140,6 +134,11 @@ html
                     label
                       input(ng-model='item.multirom', type='checkbox')
                       |  Yes
+                  p Remember set wiki page for that
+              tr
+                th Multirom wiki URL
+                th
+                  input.form-control(ng-model='item.wiki', type='url')
           button.btn(ng-click='save()', type='button') Save
           span.glyphicon.glyphicon-cog(ng-if='loadingSave', aria-hidden='true')
           span.glyphicon.glyphicon-ok(ng-if='saved', style='color: green;', aria-hidden='true')

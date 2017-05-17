@@ -1,12 +1,12 @@
 .page-header
     h1(ng-if='found && !loading')
-      | # {{device.pri}} {{name}} ({{device.device}})
+      | # {{device.id}} {{name}} ({{device.device}})
       h1(ng-if='loading || !found') {{name}}
     .row(ng-if='found && !loading')
       h2(style="margin-left: 15px;") How to install
       .col-md-8
         div(ng-if='device.status !== 1')
-          .panel.panel-default(ng-if='!device.mdt')
+          .panel.panel-default(ng-if='device.mdt')
             .panel-heading Install using MDT
             .panel-body
               p
@@ -27,7 +27,7 @@
                 | MDT tool by Marius Quabeck:
                 a(href='https://github.com/MariusQuabeck/magic-device-tool')
                   | https://github.com/MariusQuabeck/magic-device-tool
-          .panel.panel-default(ng-if='!device.system-server')
+          .panel.panel-default(ng-if='device.systemImage !== "false"')
             .panel-heading Install using system-image server
             .panel-body
               p
@@ -38,12 +38,33 @@
                 | 2. Reboot your device into fastboot mode ({device.fastboot-buttons}) and Connect your device with an USB cable to your computer.
               p(ng-if='!device.fastboot-buttons')
                 | 2. Reboot your device into fastboot mode and Connect your device with an USB cable to your computer.
-              p
-                | 3. Flash your device using this command: (
-                b NOTE! This will wipe your phone!
-                | )
-              pre.
-                sudo ubuntu-device-flash --server=http://system-image.ubports.com touch --channel=ubports-touch/legacy --device={{device.device}} --bootstrap
+              div(ng-if='device.adbRecovery !== ""')
+                p
+                  | 3. Download adb unlocked recovery:
+                  a(ng-href="{{device.adbRecovery}}")  {{device.adbRecovery}}
+                  pre
+                   | wget {{device.adbRecovery}}
+                p
+                  | 4. Flash your device using this command: (
+                  b NOTE! This will wipe your phone!
+                  | )
+                pre(ng-if='device.systemImage === ""')
+                  | sudo ubuntu-device-flash --server=http://system-image.ubports.com touch --device={{device.device}} \
+                  | --channel=ubports-touch/legacy --bootstrap --recovery={{device.adbRecovery.split("/")[device.adbRecovery.split("/").length - 1]}}
+                pre(ng-if='device.systemImage !== ""')
+                  | sudo ubuntu-device-flash --server=http://system-image.ubports.com touch --device={{device.device}} \
+                  | --channel={{device.systemImage}} --bootstrap --recovery={{device.adbRecovery.split("/")[device.adbRecovery.split("/").length - 1]}}
+              div(ng-if='device.adbRecovery === ""')
+                p
+                  | 3. Flash your device using this command: (
+                  b NOTE! This will wipe your phone!
+                  | )
+                  pre(ng-if='device.systemImage === ""')
+                    | sudo ubuntu-device-flash --server=http://system-image.ubports.com touch --device={{device.device}} \
+                    | --channel=ubports-touch/legacy --bootstrap
+                  pre(ng-if='device.systemImage !== ""')
+                    | sudo ubuntu-device-flash --server=http://system-image.ubports.com touch --device={{device.device}} \
+                    | --channel={{device.systemImage}} --bootstrap
           .panel.panel-default(ng-if='device.multirom')
             .panel-heading Install using Multirom
             .panel-body
@@ -54,14 +75,14 @@
           .panel-heading What&apos;s working
           ul.list-group
             div(ng-repeat='value in toObj(device.whatIsWorking) | orderBy')
-              li.list-group-item.list-group-item-success(ng-if='getValue(value) == 2') {{getKey(value)}}
-              li.list-group-item.list-group-item-danger(ng-if='getValue(value) != 2') {{getKey(value)}}
+              li.list-group-item.list-group-item-success(ng-if='getValue(value) == 2', style="background-color: #dff0d8; color: gray; font-size: 12px;") {{getKey(value)}}
+              li.list-group-item.list-group-item-danger(ng-if='getValue(value) != 2', style="background-color: #ebcccc; color: gray; font-size: 12px;") {{getKey(value)}}
         .panel.panel-default(ng-if="device.about !== '{}'")
           .panel-heading About Device
           table.table
             tr(ng-repeat='(key, value) in toObj(device.about)')
-              td {{key}}
-              td {{value}}
+              td {{getKey(value)}}
+              td {{getValue(value)}}
         .panel.panel-default
           .panel-heading
             h3.panel-title Donations

@@ -65,11 +65,11 @@ html
         tr(ng-if='loading', align='center')
           th(colspan='5', style='text-align: center;')
             span.fa.fa-refresh.fa-spin.fa-3x
-        tr(ng-repeat='item in voteDevices', ng-click='go(item.device)')
+        tr(ng-repeat='item in voteDevices', ng-click='goWiki(item.wiki)')
           td {{item.id}}
           td {{item.name}}
           td {{item.device}}
           td(style='width: 45%')
             | {{item.comment}}
           td
-            span.fa.fa-chevron-right.pull-right
+            span.fa.fa-chevron-right.pull-right(ng-if="item.wiki")
