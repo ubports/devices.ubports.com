@@ -22,7 +22,18 @@ function Views() {
     router.get('/admin/views/listDevices', function(req, res, next) {
         res.render('admin/listDevices');
     });
-
+    router.get('/get-involved', function(req, res, next) {
+        res.redirect("https://ubports.com/get-involved");
+    });
+    router.get('/faq', function(req, res, next) {
+        res.redirect("https://ubports.com/faq");
+    });
+    router.get('/sponsors', function(req, res, next) {
+        res.redirect("https://ubports.com/sponsors");
+    });
+    router.get('/team', function(req, res, next) {
+        res.redirect("https://ubports.com/team");
+    });
 }
 
 Views.prototype.getRouter = function() {
