@@ -50,10 +50,10 @@
                   | )
                 pre(ng-if='device.systemImage === ""')
                   | sudo ubuntu-device-flash --server=http://system-image.ubports.com touch --device={{device.device}} \
-                  | --channel=ubports-touch/legacy --bootstrap --recovery={{device.adbRecovery.split("/")[device.adbRecovery.split("/").length - 1]}}
+                  | --channel=ubports-touch/legacy --bootstrap --recovery-image={{device.adbRecovery.split("/")[device.adbRecovery.split("/").length - 1]}}
                 pre(ng-if='device.systemImage !== ""')
                   | sudo ubuntu-device-flash --server=http://system-image.ubports.com touch --device={{device.device}} \
-                  | --channel={{device.systemImage}} --bootstrap --recovery={{device.adbRecovery.split("/")[device.adbRecovery.split("/").length - 1]}}
+                  | --channel={{device.systemImage}} --bootstrap --recovery-image={{device.adbRecovery.split("/")[device.adbRecovery.split("/").length - 1]}}
               div(ng-if='device.adbRecovery === ""')
                 p
                   | 3. Flash your device using this command: (
