@@ -7,6 +7,9 @@ function Views() {
     router.get('/', function(req, res, next) {
         res.render('index');
     });
+    router.get('/#', function(req, res, next) {
+        res.render('index');
+    });
     router.get('/views/index', function(req, res, next) {
         res.render('angular-views/index');
     });
