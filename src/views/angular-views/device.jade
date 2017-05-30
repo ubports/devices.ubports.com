@@ -10,6 +10,8 @@
             .panel-heading Install using MDT
             .panel-body
               p
+                | NOTE: This will wipe your device! Please back up all valuable data.
+              p
                 | Connect the device to the computer with the USB cable
               p
                 | Ensure you have Git installed, and clone the repository to your local machine from GitHub
@@ -30,6 +32,8 @@
           .panel.panel-default(ng-if='device.systemImage !== "false"')
             .panel-heading Install using system-image server
             .panel-body
+              p
+                | NOTE: This will wipe your device! Please back up all valuable data.
               p
                 | 1. Install the required tools:
               pre.
