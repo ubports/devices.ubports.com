@@ -1,0 +1,39 @@
+{
+  "development": {
+    "database": {
+      "username": "test",
+      "password": "test",
+      "database": "test",
+      "host": "database.sqlite",
+      "dialect": "sqlite"
+    },
+    "systemImage": "testSystem.conf",
+    "bitcoin": {
+      "password": "",
+      "username": ""
+    },
+    "login": {
+        "returnURL": "http://localhost:2702/auth/ubuntu/return",
+        "realm": "http://localhost:2702"
+    },
+    "mailgun": "key-"
+  },
+  "production": {
+    "database": {
+      "username": "",
+      "password": "",
+      "database": "",
+      "host": "",
+      "dialect": ""
+    },
+    "bitcoin": {
+      "password": "",
+      "username": ""
+    },
+    "login": {
+        "returnURL": "http://localhost:2702/auth/ubuntu/return",
+        "realm": "http://localhost:2702"
+    },
+    "mailgun": "key-"
+  }
+}

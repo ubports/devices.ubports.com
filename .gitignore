@@ -27,7 +27,7 @@ build/Release
 node_modules
 
 # Hide configs
-config
+config/config.json
 
 
 # Database
