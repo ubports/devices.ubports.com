@@ -6,6 +6,7 @@ The UBports device website
 ## start debug server
 
 ```
+cp config/config.example.json config/config.json
 npm install
 DEBUG=1 npm start
 ```
