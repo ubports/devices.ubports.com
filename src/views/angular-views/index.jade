@@ -7,7 +7,7 @@ html
       table.table.table-hover
         thead
           tr
-            th ID
+            //th ID
             th Name
             th Device
             th Comment
@@ -16,7 +16,7 @@ html
           th(colspan='5', style='text-align: center;')
             span.fa.fa-refresh.fa-spin.fa-3x
         tr(ng-if='hasActiveDev', ng-repeat='item in activeDevices', ng-click='go(item.device)')
-          td {{item.id}}
+          //td {{item.id}}
           td {{item.name}}
           td {{item.device}}
           td(style='width: 45%; max-width: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;')
@@ -24,7 +24,7 @@ html
           td
             span.fa.fa-chevron-right.pull-right
         tr(ng-if='!hasActiveDev && !loading', align='center')
-          th(colspan='5', style='text-align: center;') Sorry, there is no &quot;Active&quot; devices yet!
+          th(colspan='5', style='text-align: center;') Sorry, there are no core devices to display.
     br
     .panel.panel-default
       .panel-heading Legacy Devices
@@ -33,7 +33,7 @@ html
       table.table.table-hover
         thead
           tr
-            th ID
+            //th ID
             th Name
             th Device
             th Comment
@@ -42,7 +42,7 @@ html
           th(colspan='5', style='text-align: center;')
             span.fa.fa-refresh.fa-spin.fa-3x
         tr(ng-repeat='item in progressDevices', ng-click='go(item.device)')
-          td {{item.id}}
+          //td {{item.id}}
           td {{item.name}}
           td {{item.device}}
           td(style='width: 45%; max-width: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;')
@@ -57,7 +57,7 @@ html
       table.table.table-hover
         thead
           tr
-            th ID
+            //th ID
             th Name
             th Device
             th Comment
@@ -66,7 +66,7 @@ html
           th(colspan='5', style='text-align: center;')
             span.fa.fa-refresh.fa-spin.fa-3x
         tr(ng-repeat='item in voteDevices', ng-click='goWiki(item.wiki)')
-          td {{item.id}}
+          //td {{item.id}}
           td {{item.name}}
           td {{item.device}}
           td(style='width: 45%; max-width: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;')
