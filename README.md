@@ -1,9 +1,11 @@
 # devices.ubports.com
 
-The UBports device website
+The [UBports devices page](https://devices.ubports.com).
 
 
-## start debug server
+## How to start a debug server
+
+You might have to install npm, pug and sqlite3.
 
 ```
 cp config/config.example.json config/config.json
@@ -11,7 +13,7 @@ npm install
 DEBUG=1 npm start
 ```
 
-Then open localhost:2702 in your browser
+Then open [localhost:2702](http://localhost:2702) in your browser.
 
 ## Production
 
