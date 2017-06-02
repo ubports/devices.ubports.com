@@ -115,7 +115,7 @@ app.controller('deviceCtrl', ['$scope', '$http', '$routeParams', '$uibModal', '$
       $scope.found = false;
       $scope.loading = false;
     }
-  }).catch(function(dara){
+  }).catch(function(data){
     $scope.found = false;
     $scope.loading = false;
   });
