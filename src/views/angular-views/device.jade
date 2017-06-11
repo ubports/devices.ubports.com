@@ -1,8 +1,6 @@
 .page-header
-    h1(ng-if='found && !loading')
-      //| # {{device.id}} {{name}} ({{device.device}})
-      | {{name}} ({{device.device}})
-      h1(ng-if='loading || !found') {{name}}
+    h1(ng-if='found && !loading') {{name}} ({{device.device}})
+      h1(ng-if='loading || !found') {{name}} ({{device.device}})
     .row(ng-if='found && !loading')
       h2(style="margin-left: 15px;") How to install
       .col-md-8
