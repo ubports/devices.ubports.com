@@ -1,6 +1,6 @@
 .page-header
     h1(ng-if='found && !loading') {{name}} ({{device.device}})
-      h1(ng-if='loading || !found') {{name}} ({{device.device}})
+    h1(ng-if='loading || !found') {{name}} ({{device.device}})
     .row(ng-if='found && !loading')
       h2(style="margin-left: 15px;") How to install
       .col-md-8
@@ -74,9 +74,14 @@
               | See the wiki:
               a(href='{{device.wiki}}') {{device.wiki}}
         .panel.panel-default(ng-if='device.comment !== "" && device.comment')
-          .panel-heading Install
+          .panel-heading Comment
           .panel-body
             p {{device.comment}}
+            p
+              | Please report any bug you run into 
+              a(href='https://github.com/ubports/ubports-touch/issues?q=is%3Aissue+is%3Aopen+label%3A%22device%3A+{{device.device}}%22' target="_blank")
+                | on GitHub
+              | .
       .col-md-4
         .panel.panel-default(ng-if="device.whatIsWorking != '{}'")
           .panel-heading What&apos;s working
@@ -90,6 +95,19 @@
             tr(ng-repeat='(key, value) in toObj(device.about)')
               td {{getKey(value)}}
               td {{getValue(value)}}
+            tr
+              td Bugtracker
+              td
+                a(href='https://github.com/ubports/ubports-touch/issues?q=is%3Aissue+is%3Aopen+label%3A%22device%3A+{{device.device}}%22' target="_blank")
+                  | GitHub
+            tr
+              td Progress
+              td
+                a(href='https://github.com/ubports/ubports-touch/projects/1?card_filter_query=label%3A%22device%3A+{{device.device}}%22' target="_blank")
+                  | 15.04
+              td
+                a(href='https://github.com/ubports/ubports-touch/projects/2?card_filter_query=label%3A%22device%3A+{{device.device}}%22' target="_blank")
+                  | 16.04
         .panel.panel-default
           .panel-heading
             h3.panel-title Donations
