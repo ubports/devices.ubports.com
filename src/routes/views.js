@@ -5,16 +5,16 @@ function Views() {
     this.router = router;
 
     router.get('/', function(req, res, next) {
-        res.render('index');
+        res.redirect("https://devices.ubuntu-touch.io");
     });
     router.get('/#', function(req, res, next) {
-        res.render('index');
+        res.redirect("https://devices.ubuntu-touch.io");
     });
     router.get('/views/index', function(req, res, next) {
-        res.render('angular-views/index');
+        res.redirect("https://devices.ubuntu-touch.io");
     });
     router.get('/views/device', function(req, res, next) {
-        res.render('angular-views/device');
+        res.redirect("https://devices.ubuntu-touch.io");
     });
     router.get('/admin', function(req, res, next) {
         res.render('admin/index');
