@@ -1,6 +1,6 @@
 # devices.ubports.com
 
-The [UBports devices page](https://devices.ubports.com).
+The old [UBports devices page](https://devices.ubports.com), no longer in use. Check out [devices.ubuntu-touch.io](https://devices.ubuntu-touch.io) for the new one.
 
 
 ## How to start a debug server
